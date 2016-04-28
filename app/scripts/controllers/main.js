@@ -7,7 +7,7 @@
  * # mainCtrl
  * Controller of the indomieApp
  */
-var main=angular.module.indomieApp;
+var main=angular.module('indomieApp');
 main.controller('appCtrl',['$scope', function($scope){
     $scope.foo="bar";
 }]);
@@ -20,7 +20,7 @@ main.controller('createCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.appflow=toview;
         console.log(toview);
     };
-    $scope.modal= new ModalFactory();
+//    $scope.modal= new ModalFactory();
 }]);
 main.controller('voteCtrl', ['$scope',  function ($scope) {
     $scope.foo="bar";
