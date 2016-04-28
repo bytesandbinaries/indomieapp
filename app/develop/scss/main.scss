@@ -1,0 +1,571 @@
+// Foundation for Apps
+// by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+@import 'foundation';
+@import 'settings';
+@import 'motion-ui';
+
+$foundation-version: '1.2.0';
+
+// Make sure the charset is set appropriately
+@charset "UTF-8";
+
+// Libraries (let's make Normalize an external dependency eventually)
+@import
+  "vendor/normalize";
+
+// Helpers
+@import
+  "helpers/functions",
+  "helpers/mixins",
+  "helpers/breakpoints",
+  "helpers/images";
+
+// Global styles
+@import
+  "global";
+
+// Components
+@import
+//  "components/iconic",
+//  "components/action-sheet",
+  "components/block-list",
+  "components/button",
+  "components/button-group",
+  "components/card",
+  "components/extras",
+  "components/forms",
+  "components/grid",
+//  "components/title-bar",
+  "components/label",
+  "components/list",
+  "components/menu-bar",
+  "components/modal",
+  "components/motion",
+  "components/notification",
+//  "components/off-canvas",
+  "components/popup",
+  "components/switch",
+//  "components/tabs",
+//  "components/accordion",
+  "components/typography",
+  "components/utilities";
+
+@include motion-ui-transitions;
+@include motion-ui-animations;
+
+
+
+////----------------------------------------------------------
+////---------------------------------------------------APP CSS
+////__________________________________________________________
+//
+//
+$shadow-bottom: 0px 2px 2px -2px rgba(0, 0, 0, .82);
+$shadow-top: 0px -2px 2px -2px rgba(0, 0, 0, .82);
+
+body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
+    font-family: $body-font-family;
+}
+
+button{
+    @extend %button;
+}
+.in-next-button, .in-prev-button, .in-create-button, button, .in-vote-button, h1, h2, h3, h4, h5, h6{
+    font-weight: 700;
+//    text-transform: uppercase;
+}
+
+
+.in-app-wrap{
+    width: 100%;
+
+//    background-color: $color-red-shade2;
+}
+.in-app-container{
+    position: relative;
+    max-width: 810px;
+    margin: 0 auto;
+    background: $color-white;
+}
+.in-header-wrap{
+    position: fixed;
+//    top: 0px;
+    width: 100%;
+    max-width: 810px;
+    height: 88px;
+    z-index: $z4;
+    background:$color-red;
+    box-shadow: $shadow-bottom;
+    border-bottom: 1px solid $color-red-shade2;
+//    min-height:240px;
+}
+.in-header-image{
+//    width: 100%;
+    position: absolute;
+    top: -2px;
+//    left: 20px;
+    width: 180px;
+}
+.in-header-btn{
+    float: right;
+    @extend %button;
+    @include button-size(
+        $size:small,
+        $expand:false
+        );
+    @include button-style(
+        $background:$color-yellow-shade1,
+        $background-hover:$color-yellow-shade2,
+        $color:#fff,
+        $style:solid
+        );
+    border-radius: $global-rounded;
+    margin-top: 15px;
+}
+.in-body-wrap{
+    @include grid-block(
+        $size:expand,
+        $orientation:vertical,
+        $align:center
+        );
+    padding-top: 120px;
+    padding-bottom: 80px;
+    min-height: 850px;
+    background: $color-white;
+}
+.in-footer-wrap{
+    position: fixed;
+    width: 100%;
+    max-width: 810px;
+    bottom: 0px;
+    background: $color-red;
+    box-shadow: $shadow-top;
+    border-top: 1px solid $color-red-tint2;
+}
+//.in-footer-bar{
+//    @extend %menu-bar;
+//    @include menu-bar-layout(
+//        $orientation:horizontal,
+//        $stretch:true
+//        );
+//    @include menu-bar-style(
+//        $background:$color-red,
+//        $background-hover:$color-red-shade2,
+//        $background-active:$color-red-shade2,
+//        $color:$color-white,
+//        $color-hover:$color-white,
+//        $color-active:$color-white,
+//        $autocolor:false
+//        );
+//    @include menu-bar-icons(
+//        $position:top,
+//        $size:40px
+//        );
+//}
+.in-footer-bar{
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    background: $color-red;
+    margin: 0;
+}
+.in-footer-bar > li{
+    position: relative;
+    top:-20px;
+    width: 110px;
+    height: 110px;
+    background: $color-red;
+    border-radius: $global-rounded;
+    border: 1px solid $color-red-shade1;
+    flex-basis: 110px;
+    margin: 0 7.5px;
+    padding:5px;
+    transition: all 0.4s ease;
+}
+.in-footer-bar > li:hover{
+    background: $color-red-shade1;
+    border: 1px solid $color-red-shade2;
+    transform: translate3d(0, -5px, 10px);
+}
+.in-footer-bar li a{
+    display: block;
+    padding: 20px;
+    text-align: center;
+    font: $body-font-family;
+//    font-weight: 700;
+    height: 100%;
+    color: #fff;
+
+
+}
+.in-footer-bar li a span{
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin:0 auto;
+
+
+}
+
+
+.in-home-icon{
+    background: url('../images/home.png');
+}
+.in-create-icon{
+    background: url('../images/create.png');
+}
+.in-vote-icon{
+    background: url('../images/vote.png');
+}
+.in-icon, .in-home-icon, .in-vote-icon, .in-create-icon{
+    height: 40px;
+    width: 40px;
+    background-size: contain;
+    background-position: center left;
+    background-repeat: no-repeat;
+}
+
+//---------------------------------Home View-----------------------------------------//
+.in-info-block{
+    @include grid-block(
+        $size:expand,
+        $align:center,
+        $wrap:true
+        );
+
+    padding-top: 40px;
+
+}
+.in-intro{
+    @include grid-content(
+        $size:12
+        );
+    overflow: hidden;
+    font-size: $font-up2;
+    line-height: $line-height-up3;
+    text-align: center;
+    @include breakpoint(large){
+        @include grid-content(
+        $size:6
+        );
+    }
+}
+.in-steps{
+    @include grid-content(
+        $size:8
+        );
+    overflow: hidden;
+    font-size: $font-default;
+    line-height: $line-height-up1;
+    text-align: center;
+    margin-bottom: 15px;
+    @include breakpoint(large){
+        @include grid-content(
+        $size:4
+        );
+        overflow: hidden;
+        margin-bottom: 0;
+    }
+
+}
+.create-button-container{
+    @include grid-content(
+        $size:8
+        );
+    @extend .noscroll;
+    @include breakpoint(large){
+        @include grid-content(
+        $size:4
+        );
+    }
+    margin-top: 60px;
+    margin-bottom: 60px
+
+}
+.in-create-button{
+    @extend %button;
+    @include button-size(
+        $size:large,
+        $expand:true
+        );
+    @include button-style(
+        $background:$color-green,
+        $background-hover:$color-green-shade1,
+        $color:$color-white,
+        $style:solid
+        );
+}
+//--------------------------------Create View---------------------//
+.in-create-section{
+    @include grid-content(
+        $size:expand
+        );
+    padding-left:40px;
+    padding-right: 40px;
+    @include breakpoint(large){
+        padding-left:80px;
+        padding-right: 80px;
+    }
+}
+.in-next-button{
+    @extend %button;
+    @include button-size(
+        $size:large,
+        $expand:false
+        );
+    @include button-style(
+        $background:$color-green,
+        $background-hover:$color-green-shade1,
+        $color:$color-white,
+        $style:solid
+        );
+    float: right;
+    margin: 40px 0;
+    min-width: 150px;
+}
+.in-prev-button{
+    @extend %button;
+    @include button-size(
+        $size:large,
+        $expand:false
+        );
+    @include button-style(
+        $background:$color-gray-tint2,
+        $background-hover:$color-gray-shade1,
+        $color:$color-gray-tint2,
+        $style:hollow
+        );
+    float: left;
+    margin-top: 40px;
+    min-width: 150px;
+}
+.in-message{
+    font-size: $font-up2;
+    font-family: $body-font-family;
+//    font-weight: 700;
+    line-height: $line-height-up3;
+    color: $color-gray-tint2;
+    text-align: center;
+    margin-top: 40px;
+    margin: 40px 0;
+}
+//---Your descript section----//
+//----------------------------//
+form{
+    position: relative;
+}
+input, textarea, select {
+    background: $color-white;
+    border: none;
+    display: block;
+    border-bottom: 3px solid $color-white-shade2;
+    color: $color-gray-tint2;
+    font-size: $font-up2;
+    line-height: $line-height-up3;
+    padding: 15px 15px 5px 15px;
+    resize: none;
+}
+
+textarea:hover, input:hover{
+    outline: none;
+    background: $color-white;
+    border: none;
+    border-bottom: 3px solid $color-white-shade2;
+    color: $color-gray-tint2;
+    font-size: $font-up2;
+    line-height: $line-height-up3;
+    padding: 15px 15px 5px 15px;
+    color: $color-gray-tint2;
+}
+textarea:active, textarea:focus,input:focus,input:active{
+    outline: none;
+    background: $color-white-tint1;
+    border: none;
+    overflow: hidden;
+    height: auto;
+}
+.in-text-area ~ label{
+    margin-top: 15px;
+    text-align: right;
+}
+.in-form-bar{
+    position: relative;
+    display: block;
+    width:100%;
+}
+.in-form-bar:before, .in-form-bar:after{
+    content: '';
+    position: absolute;
+    height:6px;
+    bottom:-6px;
+    background: $color-green;
+    width: 0px;
+    transition:width 0.2s ease;
+}
+.in-form-bar:before{
+    left:50%;
+}
+.in-form-bar:after{
+    right:50%;
+}
+input:focus ~ .in-form-bar:before,
+input:focus ~ .in-form-bar:after,
+textarea:focus ~ .in-form-bar:before,
+textarea:focus ~ .in-form-bar:after{
+    width: 50%;
+}
+.in-form-hightlight{}
+
+//---Your Avatar section--//
+//------------------------//
+.in-avatar-preview-area{
+    position: relative;
+    border: 2px dashed $color-white-shade2;
+    border-radius: $global-radius;
+    margin: 0 auto;
+    height:300px;
+    padding: 10px;
+}
+.in-avatar-image{
+    box-sizing: border-box;
+    width: 100%;
+    height:100%;
+//    margin: 15px;
+    background: $color-white-shade1;
+}
+.in-change-avatar-btn{
+    position: absolute;
+    bottom: 20px;
+    width: 150px;
+    margin-left: -75px;
+    left: 50%;
+    @extend %button;
+    @include button-size(
+        $size:tiny,
+        $expand:false
+        );
+    @include button-style(
+        $background:$color-white-alpha,
+        $background-hover:$color-white-alpha1,
+        $color:$color-gray-tint2,
+        $style:solid
+        );
+    border-radius: $global-rounded;
+    border: 1px solid $color-white-shade2;
+    }
+
+.in-avatar-carousel-area{
+//    width: 100%;
+//    height:100px;
+//    margin-top: 30px;
+}
+.in-avatar-carousel{
+    list-style-type: none;
+}
+.in-avatar-thumbnail{
+    width:80px;
+    height: 80px;
+    display: inline-block;
+}
+//----Avatar Face-------//
+//----------------------//
+.in-action-choices-area{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+.in-action-content{
+    display: flex;
+    flex-grow: 1;
+    flex-basis: auto;
+//    padding-right: 15px;
+
+}
+.in-action-choices-area > span{
+    width: 100%;
+    display: block;
+    text-align:center;
+    margin-bottom: 15px;
+}
+.in-upload-btn, .in-capture-btn, .in-share-btn{
+    @extend %button;
+    @include button-size(
+        $size:medium,
+        $expand:true
+        );
+    @include button-style(
+        $background:$color-gray-tint2,
+        $background-hover:$color-gray-shade1,
+        $color:$color-gray-tint2,
+        $style:hollow
+        );
+//    float: left;
+//    margin-top: 40px;
+//    min-width: 150px;
+}
+.in-upload-btn{}
+.in-capture-btn{}
+.in-share-button
+.in-submit-btn{}
+
+//--------------------Vote View--------//
+//-------------------------------------//
+.in-avatars{
+    display: flex;
+    justify-content: space-between;
+}
+.in-avatar{
+    @include card-container(
+        );
+//    display: flex;
+    flex-grow: 1;
+    flex-basis: 30%;
+    margin: 5px;
+}
+.in-avatar-image{}
+.in-avatar-tag-section{
+    @include card-divider();
+}
+.in-avatar-details-section{
+    @include card-section();
+}
+.in-avatar-vote-section{
+    @include card-section();
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+}
+.in-vote-button{
+    @extend %button;
+    @include button-size(
+        $size:tiny,
+        $expand:false
+        );
+    @include button-style(
+        $background:$color-white,
+        $background-hover:$color-white-shade1,
+        $color:$color-gray-tint2,
+        $style:solid
+        );
+    border-radius: $global-rounded;
+    border: 1px solid $color-white-shade2;
+    float: right;
+    margin: 0;
+    max-height: 30px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.icon-vote-dark{
+    @extend .in-icon;
+    width: 25px;
+    height: 25px;
+    background: url(../images/icon-vote-dark.png);
+}
+.in-vote-count{
+    float: left;
+}
+
