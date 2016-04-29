@@ -458,9 +458,26 @@ textarea:focus ~ .in-form-bar:after{
     }
 
 .in-avatar-carousel-area{
-//    width: 100%;
-//    height:100px;
-//    margin-top: 30px;
+    background: rgba(237, 50, 50, 0.8);
+    width: 100%;
+    height:100%;
+    padding: 80px;
+}
+.modal{
+//    width:100%;
+    height:100%;
+    border-radius: $global-radius;
+    background: $color-white;
+    padding-top: 80px;
+//    margin:30px;
+}
+.in-modal-close{
+    @extend .close-button;
+ }
+.in-modal-close > span{
+    width:50px;
+    height: 50px;
+    background: url('../images/modal-close.png')
 }
 .in-avatar-carousel{
     list-style-type: none;

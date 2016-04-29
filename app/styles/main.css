@@ -1633,7 +1633,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
 /*
   Odds and ends.
 */
-.close-button {
+.close-button, .in-modal-close {
   position: absolute;
   color: #999;
   top: 1rem;
@@ -1641,7 +1641,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
   font-size: 2em;
   line-height: 0.5;
   cursor: pointer; }
-  .close-button:hover {
+  .close-button:hover, .in-modal-close:hover {
     color: #333; }
 
 .thumbnail, ul.thumbnails > li img {
@@ -3795,7 +3795,7 @@ meter {
       max-width: 600px; } }
   .modal .grid-content, .modal .grid-block {
     margin: 0; }
-  .modal .close-button, .modal [fa-close] {
+  .modal .close-button, .modal .in-modal-close, .modal [fa-close] {
     z-index: 1001; }
 
 .modal {
@@ -4351,7 +4351,7 @@ meter {
     margin: 0; }
   .is-active.notification, .is-active.static-notification {
     display: flex; }
-  .notification .close-button, .static-notification .close-button {
+  .notification .close-button, .static-notification .close-button, .notification .in-modal-close, .static-notification .in-modal-close {
     color: white; }
 
 .notification-container {
@@ -6266,7 +6266,7 @@ meta.foundation-mq {
 /*
   Odds and ends.
 */
-.close-button {
+.close-button, .in-modal-close {
   position: absolute;
   color: #999;
   top: 1rem;
@@ -6274,7 +6274,7 @@ meta.foundation-mq {
   font-size: 2em;
   line-height: 0.5;
   cursor: pointer; }
-  .close-button:hover {
+  .close-button:hover, .in-modal-close:hover {
     color: #333; }
 
 .thumbnail, ul.thumbnails > li img {
@@ -6571,7 +6571,7 @@ meta.foundation-mq {
       max-width: 600px; } }
   .modal .grid-content, .modal .grid-block {
     margin: 0; }
-  .modal .close-button, .modal [fa-close] {
+  .modal .close-button, .modal .in-modal-close, .modal [fa-close] {
     z-index: 1001; }
 
 @keyframes shake {
@@ -6633,7 +6633,7 @@ meta.foundation-mq {
     margin: 0; }
   .is-active.notification, .is-active.static-notification {
     display: flex; }
-  .notification .close-button, .static-notification .close-button {
+  .notification .close-button, .static-notification .close-button, .notification .in-modal-close, .static-notification .in-modal-close {
     color: white; }
 
 .notification-container {
@@ -7428,6 +7428,23 @@ textarea:focus ~ .in-form-bar:after {
   .in-change-avatar-btn:hover, .in-change-avatar-btn:focus {
     background: rgba(240, 240, 240, 0.5);
     color: #5e5859; }
+
+.in-avatar-carousel-area {
+  background: rgba(237, 50, 50, 0.8);
+  width: 100%;
+  height: 100%;
+  padding: 80px; }
+
+.modal {
+  height: 100%;
+  border-radius: 4px;
+  background: #f0f0f0;
+  padding-top: 80px; }
+
+.in-modal-close > span {
+  width: 50px;
+  height: 50px;
+  background: url("../images/modal-close.png"); }
 
 .in-avatar-carousel {
   list-style-type: none; }
