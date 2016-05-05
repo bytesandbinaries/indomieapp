@@ -91,15 +91,15 @@ button{
     background: $color-white;
 }
 .in-header-wrap{
-    position: fixed;
+    position: absolute;
 //    top: 0px;
     width: 100%;
     max-width: 810px;
     height: 88px;
     z-index: $z4;
     background:$color-red;
-    box-shadow: $shadow-bottom;
-    border-bottom: 1px solid $color-red-shade2;
+//    box-shadow: $shadow-bottom;
+//    border-bottom: 1px solid $color-red-shade2;
 //    min-height:240px;
 }
 .in-header-image{
@@ -110,6 +110,7 @@ button{
     width: 180px;
 }
 .in-header-btn{
+    box-sizing: border-box;
     float: right;
     @extend %button;
     @include button-size(
@@ -123,7 +124,7 @@ button{
         $style:solid
         );
     border-radius: $global-rounded;
-    margin-top: 15px;
+    margin-top: 24px;
 }
 .in-body-wrap{
     @include grid-block(
@@ -345,50 +346,75 @@ button{
 .in-message{
     font-size: $font-up2;
     font-family: $body-font-family;
-//    font-weight: 700;
+    font-weight: 700;
     line-height: $line-height-up3;
-    color: $color-gray-tint2;
+    color: $color-green;
     text-align: center;
     margin-top: 40px;
     margin: 40px 0;
 }
 //---Your descript section----//
 //----------------------------//
-form{
+.in-input-group{
     position: relative;
+    margin-bottom: 20px;
 }
-input, textarea, select {
+input[type=text], 
+textarea, 
+select {
+    box-sizing: border-box;
     background: $color-white;
     border: none;
     display: block;
-    border-bottom: 3px solid $color-white-shade2;
+    border-bottom: 2px solid $color-white-shade2;
     color: $color-gray-tint2;
     font-size: $font-up2;
     line-height: $line-height-up3;
     padding: 15px 15px 5px 15px;
+    margin: 0;
+    height: auto;
     resize: none;
+    z-index: $z3;
 }
 
-textarea:hover, input:hover{
+textarea:hover, input[type=text]:hover{
     outline: none;
     background: $color-white;
     border: none;
-    border-bottom: 3px solid $color-white-shade2;
+    border-bottom: 1px solid $color-white-shade2;
     color: $color-gray-tint2;
     font-size: $font-up2;
     line-height: $line-height-up3;
     padding: 15px 15px 5px 15px;
     color: $color-gray-tint2;
 }
-textarea:active, textarea:focus,input:focus,input:active{
+textarea:focus,
+input[type=text]:focus,{
     outline: none;
-    background: $color-white-tint1;
+    background: $color-white-tint2;
     border: none;
     overflow: hidden;
     height: auto;
 }
-.in-text-area ~ label{
-    margin-top: 15px;
+.in-input-field ~ label{
+    position: absolute;
+    bottom: 35px;
+    margin-left: 15px;
+    pointer-events:none;
+    font-size: $font-up2;
+    color: $color-white-shade2;
+    transition: all 0.3s ease-in-out;
+    z-index: $z2;
+}
+.in-input-field:focus ~ label, .in-input-field:valid ~ label
+{
+    bottom:83px;
+    margin-left:5px;
+    font-size: $font-default;
+    color: $color-green;
+}
+.in-form-interact{
+    margin: 5px 0 0 0;
     text-align: right;
 }
 .in-form-bar{
@@ -399,7 +425,7 @@ textarea:active, textarea:focus,input:focus,input:active{
 .in-form-bar:before, .in-form-bar:after{
     content: '';
     position: absolute;
-    height:6px;
+    height:4px;
     bottom:-6px;
     background: $color-green;
     width: 0px;
@@ -411,8 +437,8 @@ textarea:active, textarea:focus,input:focus,input:active{
 .in-form-bar:after{
     right:50%;
 }
-input:focus ~ .in-form-bar:before,
-input:focus ~ .in-form-bar:after,
+input[type=text]:focus ~ .in-form-bar:before,
+input[type=text]:focus ~ .in-form-bar:after,
 textarea:focus ~ .in-form-bar:before,
 textarea:focus ~ .in-form-bar:after{
     width: 50%;

@@ -91,7 +91,9 @@ $color-gray-shade2: darken($color-gray,12);
 $color-gray-shade3: darken($color-gray,18);
 
 $color-white-tint1: lighten($color-white,2);
-$color-white-shade1: darken($color-white,6);$color-white-shade1: darken($color-white,6);
+$color-white-tint2: lighten($color-white,4);
+$color-white-shade1: darken($color-white,6);
+$color-white-shade1: darken($color-white,6);
 $color-white-shade2: darken($color-white,35);
 
 // 1. CSS Exports

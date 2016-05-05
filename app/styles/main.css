@@ -7085,14 +7085,12 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
   background: #f0f0f0; }
 
 .in-header-wrap {
-  position: fixed;
+  position: absolute;
   width: 100%;
   max-width: 810px;
   height: 88px;
   z-index: 40;
-  background: #ed3237;
-  box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.82);
-  border-bottom: 1px solid #d01217; }
+  background: #ed3237; }
 
 .in-header-image {
   position: absolute;
@@ -7100,12 +7098,13 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
   width: 180px; }
 
 .in-header-btn {
+  box-sizing: border-box;
   float: right;
   font-size: 0.88rem;
   background: #ffef2a;
   color: #fff;
   border-radius: 1000px;
-  margin-top: 15px; }
+  margin-top: 24px; }
   .in-header-btn:hover, .in-header-btn:focus {
     background: #ffed16;
     color: #fff; }
@@ -7332,46 +7331,71 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
 .in-message {
   font-size: 1.5rem;
   font-family: "Maven Pro", Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: 700;
   line-height: 1.5;
-  color: #5e5859;
+  color: #00a859;
   text-align: center;
   margin-top: 40px;
   margin: 40px 0; }
 
-form {
-  position: relative; }
+.in-input-group {
+  position: relative;
+  margin-bottom: 20px; }
 
-input, textarea, select {
+input[type=text],
+textarea,
+select {
+  box-sizing: border-box;
   background: #f0f0f0;
   border: none;
   display: block;
-  border-bottom: 3px solid #979797;
+  border-bottom: 2px solid #979797;
   color: #5e5859;
   font-size: 1.5rem;
   line-height: 1.5;
   padding: 15px 15px 5px 15px;
-  resize: none; }
+  margin: 0;
+  height: auto;
+  resize: none;
+  z-index: 30; }
 
-textarea:hover, input:hover {
+textarea:hover, input[type=text]:hover {
   outline: none;
   background: #f0f0f0;
   border: none;
-  border-bottom: 3px solid #979797;
+  border-bottom: 1px solid #979797;
   color: #5e5859;
   font-size: 1.5rem;
   line-height: 1.5;
   padding: 15px 15px 5px 15px;
   color: #5e5859; }
 
-textarea:active, textarea:focus, input:focus, input:active {
+textarea:focus,
+input[type=text]:focus {
   outline: none;
-  background: whitesmoke;
+  background: #fafafa;
   border: none;
   overflow: hidden;
   height: auto; }
 
-.in-text-area ~ label {
-  margin-top: 15px;
+.in-input-field ~ label {
+  position: absolute;
+  bottom: 35px;
+  margin-left: 15px;
+  pointer-events: none;
+  font-size: 1.5rem;
+  color: #979797;
+  transition: all 0.3s ease-in-out;
+  z-index: 20; }
+
+.in-input-field:focus ~ label, .in-input-field:valid ~ label {
+  bottom: 83px;
+  margin-left: 5px;
+  font-size: 1rem;
+  color: #00a859; }
+
+.in-form-interact {
+  margin: 5px 0 0 0;
   text-align: right; }
 
 .in-form-bar {
@@ -7382,7 +7406,7 @@ textarea:active, textarea:focus, input:focus, input:active {
 .in-form-bar:before, .in-form-bar:after {
   content: '';
   position: absolute;
-  height: 6px;
+  height: 4px;
   bottom: -6px;
   background: #00a859;
   width: 0px;
@@ -7394,8 +7418,8 @@ textarea:active, textarea:focus, input:focus, input:active {
 .in-form-bar:after {
   right: 50%; }
 
-input:focus ~ .in-form-bar:before,
-input:focus ~ .in-form-bar:after,
+input[type=text]:focus ~ .in-form-bar:before,
+input[type=text]:focus ~ .in-form-bar:after,
 textarea:focus ~ .in-form-bar:before,
 textarea:focus ~ .in-form-bar:after {
   width: 50%; }

@@ -1,13 +1,23 @@
 
 
 <section class="in-create-section" ng-show="appflow=='create-message'">
-    <p class="in-message" >Tell the world what's unique about you</p>
-<form>
-    <textarea class="in-text-area" placeholder="I'm Like no other because..." maxlength="140" rows="1"></textarea>
+    <p class="in-message" >Tell the world a little about you</p>
+    
+    <div class="in-input-group">
+    <input type="text" class="in-input-field" name="your-name" required>
     <span class="in-form-highlight"></span>
     <span class="in-form-bar"></span>
-    <label>140 chars. left to express your awesomeness</label>
-</form>
+    <label for="your-name">My name is</label>
+    <p class="in-form-interact" >Try a moniker you would be proud of</p>
+</div>
+    
+<div class="in-input-group">
+    <textarea class="in-input-field" maxlength="140" rows="1" name="your-desc" required></textarea>
+    <span class="in-form-highlight"></span>
+    <span class="in-form-bar"></span>
+    <label for="your-desc">I'm like no other because..</label>
+    <p class="in-form-interact" >140 chars. left to express your awesomeness</p>
+</div>
 <a class="in-next-button" ng-click="changeview('select-avatar')">Continue</a>
 </section>
 
