@@ -1,12 +1,12 @@
 
 var appServices=angular.module('appServices', ['ngResource']);
-//appServices.service('userData', ['$rootScope','$location', function($rootScope,$location){
-//  var savedData =  {name:'login',  id:0,  cart:[], email:'', cartTotal:0, currentlevel:1, transactions:[], coupons:[], status:'', facebookid:'', prop_pict:'images/knewbie.png'}
-//
-//  return{
-//     data:function() {   return savedData; }
-//  }
-//}])
+appServices.service('userData', ['$rootScope','$location', function($rootScope,$location){
+ var savedData =  {name:'',  id:0, email:'', avartar:'', status:'', caricatureUrl:'', previewUrl:'', upforvote:'', reason:''}
+
+ return{
+    data:function() {   return savedData; }
+ }
+}])
 //
 //// appServices.filter('posttime', function(){
 ////   return function (input) {

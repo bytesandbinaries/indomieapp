@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'appServices'
+    'appServices',
+    'foundation'
 ])
 .config(function($routeProvider){
     $routeProvider
@@ -42,4 +43,3 @@ angular
 .run(function(){
     FastClick.attach(document.body);
 });
-

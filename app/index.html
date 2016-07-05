@@ -29,7 +29,7 @@
 
 </head>
 
-<body ng-app="indomieApp">
+<body ng-app="indomieApp" id="indomieApp">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -42,7 +42,7 @@
                  <img class="in-header-image" src="images/header_logo.png"><button class="in-header-btn">Login</button>
         </header>
 
-        <section class="in-body-wrap"  ng-view="">
+        <section class="in-body-wrap" id="create-avartar" ng-view="">
 
         </section>
 
@@ -92,7 +92,7 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/services.js"></script>
-
+        <script src="scripts/imageprocess.js"></script>
         <!-- works with the text animation -->
 
 
