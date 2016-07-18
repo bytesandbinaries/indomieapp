@@ -1,6 +1,6 @@
-
+var scope
 function generateImagePreview(file){
-    var scope= angular.element(document.getElementById('create-avartar')).scope();
+     scope= angular.element(document.getElementById('create-avartar')).scope();
     console.log(scope.user);
     var imgHolder = parent.document.getElementById('user_image');
     if(file.files.length==1){
@@ -10,13 +10,33 @@ function generateImagePreview(file){
             var w = this.width;
             var h = this.height;
             imgHolder.src = fReaderEvent.target.result;
+            // try{jQuery('.rect').remove();}
+            // catch(e){}
+            try{jQuery('#user_image').cropper('destroy')}
+            catch(e){}
+            loadImage(file.files, 0)
+
+            //start face detection
+            // var tracker = new tracking.ObjectTracker(['face']);
+            // tracker.setStepSize(1.7);
+            // tracking.track('#user_image', tracker);
+            // tracker.on('track', function(event) {
+            //     console.log(event)
+            //     event.data.forEach(function(rect) {
+            //         console.log(rect);
+            //         facePlot(rect.x, rect.y, rect.width, rect.height);
+            //     });
+            // });
+            // var ctracker = new clm.tracker();
+            // ctracker.init(pModel);
+            // ctracker.start(videoInput);
+
         }
+
     }
     else{
         scope.user.status="Error Selecting Picture";
     }
-
-
 
     //console.log($scope.user.previewUrl);
     // NProgress.start();
@@ -30,9 +50,6 @@ function generateImagePreview(file){
     //                 scope.files.push(input.files[i]);
     //             }
     //   });
-
-
-
 
     // var holder = parent.document.getElementById('user_blob');
     // //holder.innerHTML = "";
@@ -80,3 +97,215 @@ function generateImagePreview(file){
     // }
 
 }
+function startCrop(overlay){
+    jQuery('#user_image').cropper({
+        //aspectRatio: 16/9,
+        // data:{
+        //     x:  x,
+        //     y: y,
+        //     height:h,
+        //     width: w
+        // },
+        viewMode:0,
+        zoomOnWheel:false,
+        crop:function(e){
+            console.log(e.x);
+            console.log(e.y);
+            console.log(e.width);
+            console.log(e.height);
+            console.log(e.rotate);
+            console.log(e.scaleX);
+            console.log(e.scaleY);
+            scope.x1 = e.x;
+            scope.y1 = e.y;
+            scope.x2 = e.width;
+            scope.y2 = e.height;
+            scope.$apply();
+            console.log(jQuery('.cropper-canvas').width());
+            overlay.setAttribute('width', jQuery('.cropper-canvas').width());
+            overlay.setAttribute('height', jQuery('.cropper-canvas').height())
+        }
+    })
+}
+function facePlot(x, y, w, h){
+    // var rect = document.createElement('div');
+    var overlay = document.getElementById('overlay');
+    var img = document.getElementsByClassName('cropper-canvas')[0];
+    // document.getElementById('image_container').appendChild(rect);
+    // rect.classList.add('rect');
+    // rect.style.width = w + 'px';
+    // rect.style.height = h + 'px';
+    // rect.style.left = (img.offsetLeft + x) + 'px';
+    // rect.style.top = (img.offsetTop + y) + 'px';
+    scope.x1 = x;
+    scope.y1 = y;
+    scope.x2 = w;
+    scope.y2 = h;
+    scope.$apply();
+    var data={ x:  x,  y: y,  height:h,  width: w };
+
+    overlay.style.left=img.offsetLeft+'px';
+    overlay.style.top=img.offsetTop;
+
+    jQuery('#user_image').cropper('setData', data);
+}
+var cc;
+var overlay;
+var overlayCC;
+var overlay;
+var positions=[];
+// var img = new Image();
+// img.onload = function() {
+// 	cc.drawImage(img,0,0,625, 500);
+// };
+// img.src = '../images/test.jpg';
+
+var ctrack = new clm.tracker({stopOnConvergence : true});
+
+    ctrack.init(pModel);
+    var drawRequest;
+
+function animateClean() {
+	ctrack.start(document.getElementById('user_image'));
+	drawLoop();
+}
+function animate(box) {
+	ctrack.start(document.getElementById('user_image'), box);
+	drawLoop();
+}
+
+function drawLoop() {
+	drawRequest = requestAnimationFrame(drawLoop);
+    positions=ctrack.getCurrentPosition();
+	overlayCC.clearRect(0, 0, 720, 576);
+	if (ctrack.getCurrentPosition()) {
+		ctrack.draw(overlay);
+	}
+}
+
+// detect if tracker fails to find a face
+document.addEventListener("clmtrackrNotFound", function(event) {
+	ctrack.stop();
+    document.getElementById('convergence').style.display='block';
+    document.getElementById('convergence').style.backgroundColor = "#FF0000";
+	document.getElementById('convergence').innerHTML = "The tracking had problems with finding a face in this image. Try selecting the face in the image manually."
+}, false);
+
+// detect if tracker loses tracking of face
+document.addEventListener("clmtrackrLost", function(event) {
+	ctrack.stop();
+    document.getElementById('convergence').style.display='block';
+    document.getElementById('convergence').style.backgroundColor = "#FF0000";
+	document.getElementById('convergence').innerHTML = "The tracking had problems converging on a face in this image. Try selecting the face in the image manually.";
+}, false);
+
+// detect if tracker has converged
+document.addEventListener("clmtrackrConverged", function(event) {
+	document.getElementById('convergence').innerHTML = "A face has been detected; however, you can manually improve the face found by dragging the crop handles.";
+    document.getElementById('convergence').style.display='block';
+	document.getElementById('convergence').style.backgroundColor = "#00FF00";
+	// stop drawloop
+    window.cancelAnimationFrame(drawRequest);
+    console.log(positions);
+    var x=positions[1][0]-10;
+    var y=positions[20][1]-10;
+    var w=(positions[12][0]+20) - (positions[1][0]);
+    var h= (positions[6][1]+20) - (positions[20][1]);
+    facePlot(x,y,w,h);
+	//cancelRequestAnimFrame(drawRequest);
+}, false);
+
+// update stats on iteration
+document.addEventListener("clmtrackrIteration", function(event) {
+}, false);
+// manual selection of faces (with jquery imgareaselect plugin)
+function selectBox() {
+	overlayCC.clearRect(0, 0, 720, 576);
+	document.getElementById('convergence').innerHTML = "";
+	ctrack.reset();
+	$('#overlay').addClass('hide');
+	$('#image').imgAreaSelect({
+		handles : true,
+		onSelectEnd : function(img, selection) {
+			// create box
+			var box = [selection.x1, selection.y1, selection.width, selection.height];
+			// do fitting
+			animate(box);
+			$('#overlay').removeClass('hide');
+		},
+		autoHide : true
+	});
+}
+// function to start showing images
+function loadImage(fileList, fileIndex) {
+	//if (fileList.indexOf(fileIndex) < 0) {
+     cc = document.getElementById('user_image').getContext('2d');
+     overlay = document.getElementById('overlay');
+     overlayCC = overlay.getContext('2d');
+		var reader = new FileReader();
+		reader.onload = (function(theFile) {
+		        return function(e) {
+				// check if positions already exist in storage
+				// Render thumbnail.
+				var canvas = document.getElementById('user_image')
+				var cc = canvas.getContext('2d');
+				var img = new Image();
+				img.onload = function() {
+					if (img.height > 500 || img.width > 700) {
+						var rel = img.height/img.width;
+						var neww = 700;
+						var newh = neww*rel;
+						if (newh > 500) {
+							newh = 500;
+							neww = newh/rel;
+						}
+						canvas.setAttribute('width', neww);
+						canvas.setAttribute('height', newh);
+                        // overlay.setAttribute('width', neww);
+                        // overlay.setAttribute('height', newh);
+						cc.drawImage(img,0,0,neww, newh);
+					} else {
+						canvas.setAttribute('width', img.width);
+						canvas.setAttribute('height', img.height);
+                        // overlay.setAttribute('width', img.width);
+                        // overlay.setAttribute('height', img.height);
+						cc.drawImage(img,0,0,img.width, img.height);
+					}
+                    startCrop(overlay);
+                    // jQuery('#overlay').css({left:jQuery('#user_image').offset().left})
+                    // jQuery('#overlay').css({top:jQuery('#user_image').offset().top})
+				}
+				img.src = e.target.result;
+
+			};
+		})(fileList[fileIndex]);
+		reader.readAsDataURL(fileList[fileIndex]);
+		overlayCC.clearRect(0, 0, 720, 576);
+		document.getElementById('convergence').innerHTML = "";
+		ctrack.reset();
+
+        animateClean();
+//	}
+}
+// set up file selector and variables to hold selections
+var fileList, fileIndex;
+if (window.File && window.FileReader && window.FileList) {
+	function handleFileSelect(evt) {
+		var files = evt.target.files;
+		fileList = [];
+		for (var i = 0;i < files.length;i++) {
+			if (!files[i].type.match('image.*')) {
+				continue;
+			}
+			fileList.push(files[i]);
+		}
+		if (files.length > 0) {
+			fileIndex = 0;
+		}
+		loadImage();
+	}
+	document.getElementById('imageUploader').addEventListener('change', handleFileSelect, false);
+ } else {
+// 	$('#files').addClass("hide");
+// 	$('#loadimagetext').addClass("hide");
+ }

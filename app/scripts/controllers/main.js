@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 /**
  * @ngdoc function
@@ -14,10 +14,22 @@ main.controller('appCtrl',['$scope', function($scope){
 main.controller('mainCtrl', ['$scope', function ($scope) {
     $scope.foo="bar";
 }]);
-main.controller('createCtrl', ['$scope', '$http', 'userData', function ($scope, $http, userData) {
+main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', function ($scope, $http, userData, appService) {
     $scope.user=userData.data();
     $scope.appflow="create-message";
     $scope.photostatus='default';
+    $scope.currentAngle=0;
+    var width = 320;    // We will scale the photo width to this
+    var height = 0;     // This will be computed based on the input stream
+
+    var streaming = false;
+    var video = null;
+    var videoContainer = null;
+    var canvas = null;
+    var photo = null;
+    var photoContainer = null;
+    var startbutton = null;
+
     $scope.changeview=function(toview){
         $scope.appflow=toview;
     //    console.log(toview);
@@ -29,8 +41,10 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', function ($scope, 
     $scope.startWebCamera=function(){
         $scope.photostatus='webcam';
         video = document.getElementById('video');
-        canvas = document.getElementById('canvas');
+        videoContainer=document.getElementById('camera');
+        canvas = document.getElementById('user_image');
         photo = document.getElementById('photo');
+        photoContainer=document.getElementById('output');
         startbutton = document.getElementById('startbutton');
 
         navigator.getMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
@@ -75,6 +89,7 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', function ($scope, 
         clearphoto();
     }
     function clearphoto() {
+
         var context = canvas.getContext('2d');
         context.fillStyle = "#AAA";
         context.fillRect(0, 0, canvas.width, canvas.height);
@@ -92,6 +107,8 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', function ($scope, 
     function takepicture() {
         var context = canvas.getContext('2d');
         if (width && height) {
+            videoContainer.style.display='none';
+            photoContainer.style.display='block';
           canvas.width = width;
           canvas.height = height;
           context.drawImage(video, 0, 0, width, height);
@@ -101,13 +118,79 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', function ($scope, 
           clearphoto();
         }
     }
+    $scope.takeAnotherPhoto=function(){
+        videoContainer.style.display='block';
+        photoContainer.style.display='none';
+        clearphoto();
+        startWebCamera();
+    }
+    $scope.usePhoto=function(){
+        var cc = document.getElementById('user_image').getContext('2d');
+        var overlay = document.getElementById('overlay');
+        var overlayCC = overlay.getContext('2d');
 
+        $scope.photostatus='default';
+        startCrop(overlay);
+        overlayCC.clearRect(0, 0, 720, 576);
+		document.getElementById('convergence').innerHTML = "";
+		ctrack.reset();
+
+        animateClean();
+    }
     $scope.callImagePreview=function(){
         angular.element('#imageUploader').trigger('click');
     }
     $scope.uploadImage=function(){
-        
+
     }
+    $scope.turnImage=function(direction){
+        $scope.imageHolder=document.getElementById('user_image');
+        if(direction=='l'){
+            $scope.currentAngle = ($scope.currentAngle+90) % 360;
+        }
+        else{
+            $scope.currentAngle = ($scope.currentAngle-90) % 360;
+        }
+        $scope.imageHolder.className = "rotate"+$scope.currentAngle;
+    }
+   //  $scope.uploadFile = function(){
+     // NProgress.start();
+        // var file = $scope.myFile;
+        // console.log('file is ' );
+        // console.dir(file);
+        // console.log($scope.x1, $scope.y1)
+        // var uploadUrl = "http://localhost:8888/indomieApp/app/api/upload";
+        // var name = $scope.myName;
+        // var reason = $scope.myReason;
+        // var x1 = $scope.x1;
+        // var y1 = $scope.y1;
+        // var x2 = $scope.x2;
+        // var y2 = $scope.y2;
+        // var width = $scope.imgWidth;
+        // var height = $scope.imgHeight;
+        // fileUpload.uploadFileToUrl(file, uploadUrl, name, reason, x1, y1, x2, y2, width, height);
+   //
+   //};
+
+   $scope.uploadFile=function(){
+       console.log($scope.user);
+       appService.uploadImages($scope.user).then(function(response){
+           if(response!=='no Images'){
+               $scope.user.uploadedImageUrl=response.uploaded_pic;
+               $scope.user.status='image Uploaded';
+               console.log(response);
+           }
+           appService.addRequest_data('cartoonImage', $scope.user).then(function(response){
+             console.log('okay');
+           },
+           function(error){
+               console.log('error this '+error)
+           });
+       },
+       function(error){
+           console.log('Error Uploading Images '+error)
+       });
+   }
 
     //$scope.modal= new ModalFactory();
 }]);

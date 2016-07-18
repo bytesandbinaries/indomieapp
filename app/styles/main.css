@@ -7525,3 +7525,9 @@ textarea:focus ~ .in-form-bar:after {
 
 .in-vote-count {
   float: left; }
+
+.rect {
+  border: 2px solid #a64ceb;
+  left: -1000px;
+  position: absolute;
+  top: -1000px; }

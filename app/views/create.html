@@ -1,5 +1,3 @@
-
-
 <section class="in-create-section" ng-show="appflow=='create-message'">
     <p class="in-message" >Tell the world what's unique about you</p>
 <form>
@@ -8,7 +6,7 @@
     <textarea class="in-text-area" required="required" ng-model="user.reason" placeholder="I'm Like no other because..." maxlength="140" rows="1"></textarea>
     <span class="in-form-highlight"></span>
     <span class="in-form-bar"></span>
-    <label>140 chars. left to express your awesomeness</label>
+    <label>140 chars. left to express your awesomeness.</label>
 </form>
 <a class="in-next-button" ng-click="getUserdata()">Continue</a>
 </section>
@@ -44,32 +42,44 @@
     <p class="in-message">Choose a face for your image</p>
     <div class="in-avatar-preview-area">
         <div class="" ng-show="photostatus=='default'">
-            <div class="in-avatar-image">
+            <!-- <div class="in-avatar-image" id="image_container">
                 <img ng-src="" id="user_image">
-            </div>
+            </div> -->
+            <div id="image_container">
+				<canvas id="user_image" width="" height=""></canvas>
+				<canvas id="overlay" width="auto" height="auto"></canvas>
+                <div id="convergence"></div>
+			</div>
             <span class="in-avatar-caption">Use a clear image of your face</span>
         </div>
         <div class="webCamImage" ng-show="photostatus=='webcam'">
-            <div class="camera">
-                <video id="video">Video stream not available.</video>
-                <button id="startbutton">Take photo</button>
-            </div>
-            <canvas id="canvas"></canvas>
-            <div class="output">
-                <img id="photo" alt="The screen capture will appear in this box.">
+            <div>
+                <div class="camera" id="camera">
+                    <video id="video">Video stream not available.</video>
+                    <div id="startbutton">Take photo</div>
+                </div>
+                <div id="output" class="output">
+                    <img id="photo" alt="The screen capture will appear in this box.">
+                    <div class="webaction" ng-click="takeAnotherPhoto()" id="clearPicture">Take Another photo</div>
+                    <div class="webaction" ng-click="usePhoto()" id="usePhoto">Use this photo</div>
+                </div>
+
             </div>
         </div>
+        <a ng-click="turnImage('l')" >Turn Left</a>
+        <a ng-click="turnImage('r')" >Turn Right</a>
+
     </div>
 
     <div class="in-action-choices-area">
-        <input style="display:none" type="file" id="imageUploader" name="imageUploader" accept="image/*" ng-model="user.previewUrl" onchange="generateImagePreview(this)"/>
+        <input style="display:none" type="file" id="imageUploader" name="previewUrl" accept="image/*" file-model="user.previewUrl" onchange="generateImagePreview(this)"/>
         <button class="in-upload-btn" ng-click="callImagePreview()" >Upload a photo</button>
         <span>or</span>
         <button class="in-capture-btn" ng-click="startWebCamera()">Take a Webcam Photo</button>
     </div>
 
     <a class="in-prev-button" ng-click="changeview('select-avatar')">Back</a>
-    <a class="in-next-button" ng-click="uploadImage()">Continue</a>
+    <a class="in-next-button" ng-click="uploadFile()">Continue</a>
 </section>
 
 

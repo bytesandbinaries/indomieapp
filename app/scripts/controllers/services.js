@@ -1,12 +1,42 @@
 
 var appServices=angular.module('appServices', ['ngResource']);
 appServices.service('userData', ['$rootScope','$location', function($rootScope,$location){
- var savedData =  {name:'',  id:0, email:'', avartar:'', status:'', caricatureUrl:'', previewUrl:'', upforvote:'', reason:''}
+ var savedData =  {name:'',  id:0, email:'', avartar:'', status:'', caricatureUrl:'', previewUrl:'', uploadedImageUrl:'', upforvote:'', reason:''}
 
  return{
     data:function() {   return savedData; }
  }
 }])
+// appServices.service('fileUpload', ['$http', '$rootScope', function ($http, $rootScope, $location) {
+//
+//    this.uploadFileToUrl = function(file, uploadUrl, name, reason, x1, y1, x2, y2, width, height){
+//         var fd = new FormData();
+//         fd.append('file', file);
+//         fd.append('name', name);
+//         fd.append('reason', reason);
+//         fd.append('x1', x1);
+//         fd.append('y1', y1);
+//         fd.append('x2', x2);
+//         fd.append('y2', y2);
+//         fd.append('width', width);
+//         fd.append('height', height);
+//         $http.post(uploadUrl, fd, {
+//             transformRequest: angular.identity,
+//             headers: {'Content-Type': undefined,'Process-Data': false}
+//         })
+//         .success(function(data){
+//         //  NProgress.done();
+//           $rootScope.$emit("CallSharePicBoxGlobal", {message: data});
+//           //window.location = "#/share/" + data;
+//           //$location.path("/share/" + data);
+//           console.log("Success" + data);
+//         })
+//         .error(function(){
+//         //   NProgress.done();
+//           console.log("Failure");
+//         });
+//     }
+// }]);
 //
 //// appServices.filter('posttime', function(){
 ////   return function (input) {
@@ -58,65 +88,96 @@ appServices.service('userData', ['$rootScope','$location', function($rootScope,$
 //    }
 //}])
 //
-//
-//appServices.service('appService', ['$q','$http','$location','$rootScope', function( $q, $http, $location, $rootScope) {
-//
-//    var parsetoformdata= function(data){
-//        var form_data = new FormData();
-//        if(typeof(data)==='object'){
-//            for ( var key in data ) {
-//                form_data.append(key, data[key]);
-//            }
-//        }
-//        else if(data!=''){
-//            form_data.append('data', data);
-//        }
-//        else{form_data.append('data', '');}
-//        return form_data;
-//    }
-//    var addRequest_data=function(action, data){
-//		return $q(function(resolve, reject) {
-//            if(data==''){data={}}
-//
-//            var url='http://localhost/poweroil/app/server/get_allq.php';
-//
-//            if(action!='' && data!=''){
-//                if(typeof(data)!=='object'){
-//                    temp={action:action, data:data};
-//                    data=temp;
-//                }
-//                else{data.action=action; }
-//            }
-//            form_data=parsetoformdata(data);
-//            $http({
-//                method: 'POST',
-//                url: url,
-//                data: form_data,
-//                transformRequest: angular.identity,
-//                headers: {'Content-Type': undefined}
-//                //headers : {"application/x-www-form-urlencoded; charset=utf-8"}
-//            }).
-//            success(function(response) {
-//              //console.log(response)
-//              resolve(response);
-//            },
-//            function(err) {reject('Data Couldn\'t be added.');}
-//            );
-//        });
-//	}
-//    return{
-//        addRequest_data :function(action, data) {
-//            return addRequest_data(action, data)
-//        },
-//        uploadImages :function(file) {
-//            return uploadImages(file)
-//        },
-//	    register:function(regprams){
-//		    register(regprams)
-//	    }
-//    }
-//}])
-//
+appServices.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+appServices.service('appService', ['$q','$http','$location','$rootScope', function( $q, $http, $location, $rootScope) {
+   var parsetoformdata= function(data){
+       var form_data = new FormData();
+       if(typeof(data)==='object'){
+           for ( var key in data ) {
+               form_data.append(key, data[key]);
+           }
+       }
+       else if(data!=''){
+           form_data.append('data', data);
+       }
+       else{form_data.append('data', '');}
+       return form_data;
+   }
+   var uploadImages = function(file){
+       return $q(function(resolve, reject) {
+           if(file!=null){
+              form_data=parsetoformdata(file);
+
+              $http.post('server/upload_images.php', form_data, {
+
+                   transformRequest: angular.identity,
+                   headers: {'Content-Type': undefined}                })
+               .success(function(response){ resolve(response); })
+               .error(function(err){ reject('Images Couldn\'t be added.'+err); });
+           }
+           else{
+               console.log('No Images');
+               resolve('no Images');
+           }
+       });
+   }
+   var addRequest_data=function(action, data){
+		return $q(function(resolve, reject) {
+           if(data==''){data={}}
+
+           var url='server/get_allq.php';
+
+           if(action!='' && data!=''){
+               if(typeof(data)!=='object'){
+                   temp={action:action, data:data};
+                   data=temp;
+               }
+               else{data.action=action; }
+           }
+           form_data=parsetoformdata(data);
+           $http({
+               method: 'POST',
+               url: url,
+               data: form_data,
+               transformRequest: angular.identity,
+               headers: {'Content-Type': undefined}
+               //headers : {"application/x-www-form-urlencoded; charset=utf-8"}
+           }).
+           success(function(response) {
+             //console.log(response)
+             resolve(response);
+           },
+           function(err) {reject('Data Couldn\'t be added.');}
+           );
+       });
+	}
+   return{
+       addRequest_data :function(action, data) {
+           return addRequest_data(action, data)
+       },
+       uploadImages :function(file) {
+           return uploadImages(file)
+       },
+	    register:function(regprams){
+		    register(regprams)
+	    }
+   }
+}])
+
+
 //appServices.service('AuthService', ['userData','$q','$http','USER_ROLES','$location','$rootScope', function(userData, $q, $http, USER_ROLES, $location, $rootScope) {
 //  var LOCAL_TOKEN_KEY = 'myAskToken';
 //  user=userData.data();
