@@ -1,43 +1,36 @@
-<section class="in-create-section" ng-show="appflow=='create-message'">
-    <p class="in-message" >Tell the world what's unique about you</p>
-<form>
-    <input class="in-text-area"  type="" required="required" ng-model="user.name" placeholder="My Name is..." />
-    <input class="in-text-area"  type="" required="required" ng-model="user.email" placeholder="My Email is..." />
-    <textarea class="in-text-area" required="required" ng-model="user.reason" placeholder="I'm Like no other because..." maxlength="140" rows="1"></textarea>
-    <span class="in-form-highlight"></span>
-    <span class="in-form-bar"></span>
-    <label>140 chars. left to express your awesomeness.</label>
-</form>
-<a class="in-next-button" ng-click="getUserdata()">Continue</a>
+<div ng-switch="appflow">
+<section class="in-create-section" ng-switch-when="create-message">
+    <p class="in-message">Introduce yourself to the world</p>
+    <form>
+        <input class="in-text-area"  type="" required="required" ng-model="user.name" placeholder="My First Name is..." />
+        <input class="in-text-area"  type="" required="required" ng-model="user.lname" placeholder="My Surname is..." />
+        <input class="in-text-area"  type="" required="required" ng-model="user.email" placeholder="My Email is..." />
+    </form>
+    <a class="in-next-button" ng-click="getUserdata()">Continue</a>
 </section>
-
-
-<section class="in-create-section" ng-show="appflow=='select-avatar'">
+<section class="in-create-section" ng-switch-when="select-avatar">
     <p class="in-message">Select an Avatar Below</p>
-   <div class="in-avatar-preview-area">
+    <div class="in-avatar-preview-area">
        <div class="in-avatar-image">
            <img src="">
        </div>
        <a ng-click="modal.activate()" class="in-change-avatar-btn">Change Avatar
        </a>
     </div>
-<!--
-   <div zf-modal="" id="avatarCatalog" class="in-avatar-carousel-area">
-      <a zf-close="" class="close-button">×</a>
-       <ul class="in-avatar-carousel">
-           <li class="in-avatar-thumbnail">
-               <img src="../images/knewbie.png">
-           </li>
-       </ul>
-   </div>
--->
-
-<a class="in-prev-button" ng-click="changeview('create-message')">Back</a>
-<a class="in-next-button" ng-click="changeview('upload-image')">Continue</a>
+    <!--
+       <div zf-modal="" id="avatarCatalog" class="in-avatar-carousel-area">
+          <a zf-close="" class="close-button">×</a>
+           <ul class="in-avatar-carousel">
+               <li class="in-avatar-thumbnail">
+                   <img src="../images/knewbie.png">
+               </li>
+           </ul>
+       </div>
+    -->
+    <a class="in-prev-button" ng-click="changeview('create-message')">Back</a>
+    <a class="in-next-button" ng-click="changeview('upload-image')">Continue</a>
 </section>
-
-
-<section class="in-create-section" ng-show="appflow=='upload-image'">
+<section class="in-create-section" ng-switch-when="upload-image">
 
     <p class="in-message">Choose a face for your image</p>
     <div class="in-avatar-preview-area">
@@ -59,13 +52,18 @@
                     <div id="startbutton">Take photo</div>
                 </div>
                 <div id="output" class="output">
-                    <img id="photo" alt="The screen capture will appear in this box.">
+                    <img id="photo"  alt="The screen capture will appear in this box.">
                     <div class="webaction" ng-click="takeAnotherPhoto()" id="clearPicture">Take Another photo</div>
                     <div class="webaction" ng-click="usePhoto()" id="usePhoto">Use this photo</div>
                 </div>
 
             </div>
         </div>
+        <div class="drag">
+            <img src="images/glasses.png" id="glassFrame" class="resize" />
+        </div>
+
+
         <a ng-click="turnImage('l')" >Turn Left</a>
         <a ng-click="turnImage('r')" >Turn Right</a>
 
@@ -77,25 +75,70 @@
         <span>or</span>
         <button class="in-capture-btn" ng-click="startWebCamera()">Take a Webcam Photo</button>
     </div>
+    <div>
 
+        <div ng-repeat="filter in filters">
+            <select ng-options="item as item.name for item in filterParameters" ng-model="selected" ng-change="filterSelected(filter, selected)"></select>
+            <div ng-show="selected.parameter.length > 0">
+                <div>Parameters</div>
+                <div ng-repeat="para in selected.parameter">
+                    <div ng-model="para.name"></div>
+                    <select ng-show="para.type=='s'" ng-options="o as o for o in para.values" ng-model="filter.parameters[$index].value" ></select>
+                    <input ng-show="para.type=='t'" type="text" placeholder="vales between {{para.values[0]}} and {{para.values[1]}}" ng-model="filter.parameters[$index].value" >
+                </div>
+                <input type="text" ng-model="filter.transparency" placeholder="Add transparency to blend this effect with another"/>
+            </div>
+        </div>
+        <button ng-click="addfilter()">Add Filter</button>
+        <input type="checkbox" ng-model="test" name="displaytype"/><label> Testing</label>
+
+    </div>
     <a class="in-prev-button" ng-click="changeview('select-avatar')">Back</a>
     <a class="in-next-button" ng-click="uploadFile()">Continue</a>
+
 </section>
-
-
-<section class="in-create-section" ng-show="appflow=='share-pic'">
-
-    <p class="in-message"> Congratulations You've Created your avatar</p>
-    <div class="in-avatar-preview-area">
-        <div class="in-avatar-image">
-            <img ng-src="">
+<section class="in-create-section" ng-switch-when="share-pic" ng-init="presentCartoon()">
+    <div ng-hide="test">
+        <p class="in-message"> Congratulations You've Created your avatar</p>
+        <div class="in-avatar-preview-area">
+            <div class="in-avatar-image">
+                <canvas id="cartoonise" width="500" height="500"> </canvas>
+            </div>
         </div>
-    </div>
-    <div class="in-action-choices-area">
-        <a class="in-share-btn">Share to Timeline</a>
-        <a class="in-share-btn">Use as Cover Photo</a>
-        <a class="in-share-btn">Tag Friends</a>
-    </div>
-    <a class="in-next-button" ng-click="" ng-href="#/vote">Submit for Voting</a>
+        <input type="text" ng-model="propsposition.caricatureX"/>
+        <input type="text" ng-model="propsposition.caricatureY"/>
+        <input type="text" ng-model="propsposition.caricatureW"/>
+        <input type="text" ng-model="propsposition.caricatureH"/>
+        <input type="text" ng-model="propsposition.categoryTemplateX"/>
+        <input type="text" ng-model="propsposition.categoryTemplateY"/>
+        <input type="text" ng-model="propsposition.categoryTemplateW"/>
+        <input type="text" ng-model="propsposition.categoryTemplateH"/>
 
+
+        <div class="in-action-choices-area" ng-hide="voting">
+            <a class="in-share-btn" ng-click="presentCartoon()">Share on Facebook</a>
+            <a class="in-share-btn">Share on Twitter</a>
+            <a class="in-share-btn">Download </a>
+            <a class="in-next-button" ng-click="voting=true">Submit for Voting</a>
+        </div>
+        <div ng-show="voting">
+            <p class="in-message" >Tell the world what's unique about you</p>
+            <div>
+                <form>
+                    <textarea class="in-text-area" required="required" ng-model="user.reason" placeholder="I'm Like no other because..." maxlength="140" rows="1"></textarea>
+                    <span class="in-form-highlight"></span>
+                    <span class="in-form-bar"></span>
+                    <label>140 chars. left to express your awesomeness.</label>
+                    <a class="in-next-button" ng-click="" ng-href="#/vote">Submit</a>
+                </form>
+            </div>
+        </div>
+
+        <img id="cartoonFrame" src="images/frame1.jpg" />
+        <img id="cartoonImage" ng-src="{{user.caricatureUrl}}">
+    </div>
+    <div ng-show="test">
+        <img  ng-src="{{user.caricatureUrl}}"/>
+    </div>
 </section>
+</div>

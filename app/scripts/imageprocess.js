@@ -1,6 +1,51 @@
-var scope
+var scope, ctrack, cc, overlay, overlayCC, drawRequest;
+
 function generateImagePreview(file){
-     scope= angular.element(document.getElementById('create-avartar')).scope();
+    scope = angular.element(document.getElementById('create-avartar')).scope();
+    $('.drag').css({display:'block'});
+    $( ".drag" ).draggable({
+    stop: function(){
+    				var finalOffset = $(this).offset();
+    				var finalxPos = finalOffset.left;
+    				var finalyPos = finalOffset.top;
+                    console.log($(this));
+    				$('#finalX').text('Final X: ' + finalxPos);
+    				$('#finalY').text('Final X: ' + finalyPos);
+                    scope.gFrameX= finalxPos;
+                    scope.gFrameY=finalyPos;
+                    scope.$apply();
+    			}
+            });
+    $( ".resize" ).resizable({
+			stop: function(event, ui) {
+				var w = $(this).width();
+				var h = $(this).height();
+				console.log('StopEvent fired')
+				console.log('Width:'+w);
+				console.log('Height:'+h)
+                scope.gFrameW= w;
+                scope.gFrameH=h;
+                scope.$apply();
+			}
+        });
+        $('#image_container').droppable({
+    			accept: '.props',
+    			over : function(){
+    				$(this).animate({
+    					'border-width' : '5px',
+    					'border-color' : '#0f0'
+    				}, 500);
+    				$('.props').draggable('option','containment',$(this));
+    			}
+    		});
+    //$( ".props" ).resizable();
+
+    overlay = document.getElementById('overlay');
+    overlayCC = overlay.getContext('2d');
+    positions=[];
+    ctrack = new clm.tracker({stopOnConvergence : true});
+    ctrack.init(pModel);
+
     console.log(scope.user);
     var imgHolder = parent.document.getElementById('user_image');
     if(file.files.length==1){
@@ -109,23 +154,39 @@ function startCrop(overlay){
         viewMode:0,
         zoomOnWheel:false,
         crop:function(e){
-            console.log(e.x);
-            console.log(e.y);
-            console.log(e.width);
-            console.log(e.height);
-            console.log(e.rotate);
-            console.log(e.scaleX);
-            console.log(e.scaleY);
-            scope.x1 = e.x;
-            scope.y1 = e.y;
-            scope.x2 = e.width;
-            scope.y2 = e.height;
+            // console.log(e.x);
+            // console.log(e.y);
+            // console.log(e.width);
+            // console.log(e.height);
+            // console.log(e.rotate);
+            // console.log(e.scaleX);
+            // console.log(e.scaleY);
+            scope.cordX = e.x;
+            scope.cordY = e.y;
+            scope.cropWidth = e.width;
+            scope.cropHeight = e.height;
             scope.$apply();
-            console.log(jQuery('.cropper-canvas').width());
+            // console.log(jQuery('.cropper-canvas').width());
             overlay.setAttribute('width', jQuery('.cropper-canvas').width());
             overlay.setAttribute('height', jQuery('.cropper-canvas').height())
         }
     })
+}
+
+
+
+function useImageFromWebcam(){
+    scope = angular.element(document.getElementById('create-avartar')).scope();
+    cc = document.getElementById('user_image').getContext('2d');
+    overlay = document.getElementById('overlay');
+    overlayCC = overlay.getContext('2d');
+    startCrop(overlay);
+    overlayCC.clearRect(0, 0, 720, 576);
+    document.getElementById('convergence').innerHTML = "";
+    ctrack = new clm.tracker({stopOnConvergence : true});
+    ctrack.init(pModel);
+    ctrack.reset();
+    animateClean();
 }
 function facePlot(x, y, w, h){
     // var rect = document.createElement('div');
@@ -137,10 +198,10 @@ function facePlot(x, y, w, h){
     // rect.style.height = h + 'px';
     // rect.style.left = (img.offsetLeft + x) + 'px';
     // rect.style.top = (img.offsetTop + y) + 'px';
-    scope.x1 = x;
-    scope.y1 = y;
-    scope.x2 = w;
-    scope.y2 = h;
+    scope.cordX = x;
+    scope.cordY = y;
+    scope.cropWidth = w;
+    scope.cropHeight = h;
     scope.$apply();
     var data={ x:  x,  y: y,  height:h,  width: w };
 
@@ -149,21 +210,12 @@ function facePlot(x, y, w, h){
 
     jQuery('#user_image').cropper('setData', data);
 }
-var cc;
-var overlay;
-var overlayCC;
-var overlay;
-var positions=[];
+
 // var img = new Image();
 // img.onload = function() {
 // 	cc.drawImage(img,0,0,625, 500);
 // };
 // img.src = '../images/test.jpg';
-
-var ctrack = new clm.tracker({stopOnConvergence : true});
-
-    ctrack.init(pModel);
-    var drawRequest;
 
 function animateClean() {
 	ctrack.start(document.getElementById('user_image'));
@@ -240,8 +292,7 @@ function selectBox() {
 function loadImage(fileList, fileIndex) {
 	//if (fileList.indexOf(fileIndex) < 0) {
      cc = document.getElementById('user_image').getContext('2d');
-     overlay = document.getElementById('overlay');
-     overlayCC = overlay.getContext('2d');
+
 		var reader = new FileReader();
 		reader.onload = (function(theFile) {
 		        return function(e) {

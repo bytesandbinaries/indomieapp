@@ -22,12 +22,15 @@
 	position : relative;
 	width : auto;
 	height : auto;
-    text-align: center;
+    /*text-align: center;*/
 	/*margin : 0px auto;*/
 }
 .in-avatar-preview-area{
     height:auto !important;
     min-height:300px
+}
+.in-avatar-image{
+    text-align:center;
 }
 #convergence{
     padding: 20px;
@@ -69,4 +72,13 @@
     margin: 10px auto;
     border-radius: 5px;
     cursor: pointer;
+}
+#cartoonFrame, #cartoonImage{
+    display: none;
+}
+.drag{
+    position:absolute;
+    left:10px;
+    top:10px;
+    display:none;
 }

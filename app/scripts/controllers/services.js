@@ -120,9 +120,25 @@ appServices.service('appService', ['$q','$http','$location','$rootScope', functi
        return $q(function(resolve, reject) {
            if(file!=null){
               form_data=parsetoformdata(file);
+                $http.post('server/upload_images.php', form_data, {//online
+                //$http.post('http://localhost:8888/indomieApp/app/server/upload_images.php', form_data, {//offline
 
+                   transformRequest: angular.identity,
+                   headers: {'Content-Type': undefined}                })
+               .success(function(response){ resolve(response); })
+               .error(function(err){ reject('Images Couldn\'t be added.'+err); });
+           }
+           else{
+               console.log('No Images');
+               resolve('no Images');
+           }
+       });
+   }
+   var uploadCanvasImage=function(file){
+       return $q(function(resolve, reject) {
+           if(file!=null){
+              form_data=parsetoformdata(file);
               $http.post('server/upload_images.php', form_data, {
-
                    transformRequest: angular.identity,
                    headers: {'Content-Type': undefined}                })
                .success(function(response){ resolve(response); })
@@ -137,8 +153,8 @@ appServices.service('appService', ['$q','$http','$location','$rootScope', functi
    var addRequest_data=function(action, data){
 		return $q(function(resolve, reject) {
            if(data==''){data={}}
-
-           var url='server/get_allq.php';
+           var url='server/get_allq.php';//online
+           //var url='http://localhost:8888/indomieApp/app/server/get_allq.php';
 
            if(action!='' && data!=''){
                if(typeof(data)!=='object'){

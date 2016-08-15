@@ -36,18 +36,46 @@ if($_POST['action']=='additem'){
     echo $_POST['callback'].$item_no;
 }
 else if($_POST['action'] =='cartoonImage'){
-
+    //print_r($_POST['user']);
 
     $file_path = dirname(__DIR__)."/uploadedPicture/".$_POST['uploadedImageUrl'];
-    $output_path= dirname(__DIR__)."/proccessedCartoon/".$_POST['uploadedImageUrl'];
+    $output_path= dirname(__DIR__)."/uploadedPicture/".$_POST['uploadedImageUrl'];
 
+
+    //$file_path = dirname(__DIR__)."/uploadedPicture/1468979962.jpg";
+
+    $cordinates= array('cordX' => $_POST['cordX'], 'cordY' => $_POST['cordY'], 'height' => $_POST['height'] , 'width' => $_POST['height']);
+    function fetchImage($imagePath){
+        $imageinfo = pathinfo($imagePath);
+        $extension = strtolower($imageinfo['extension']);
+        switch ($extension) {
+            case 'jpg':
+              $orignalImage = imagecreatefromjpeg($imagePath);
+              break;
+            case 'jpeg':
+              $orignalImage = imagecreatefromjpeg($imagePath);
+              break;
+            case 'png':
+              $orignalImage = imagecreatefrompng($imagePath);
+              break;
+            case 'gif':
+              $orignalImage = imagecreatefromgif($imagePath);
+              break;
+            default:
+              $orignalImage = imagecreatefromjpeg($imagePath);
+        }
+        return $orignalImage;
+    }
     function toon($output_path){
-      exec("bash " . __DIR__ . "/toon.sh -m 1 -c pegtoplight " . $output_path . " " .  $output_path, $output, $return);
+      exec("bash " . __DIR__ . "/toon.sh -m 2 -c pegtoplight " . $output_path . " " .  $output_path, $output, $return);
       processLog($return, 'toon');
     }
 
     function crossHatch($output_path){
-      exec("bash " . __DIR__ . "/crosshatch.sh -l 7 -s 20 -g 0 -a 1 " . $output_path . " " .  $output_path);
+      exec("bash " . __DIR__ . "/crosshatch.sh -h -l 7 -s 20 -g 0 -a 1 " . $output_path . " " .  $output_path);
+    }
+    function coloration($output_path){
+      exec("bash " . __DIR__ . "/coloration.sh -h 28 -s 38 -l 10 -r 92 -g 73 -b 57 -B -20 -C -35 " . $output_path . " " .  $output_path);
     }
 
     function daveHill($output_path){
@@ -56,24 +84,119 @@ else if($_POST['action'] =='cartoonImage'){
     function draganeffect($file_path, $output_path){
       exec("bash " . __DIR__ . "/draganeffect.sh " . $file_path . " " .  $output_path, $output, $return);
       processLog($return, 'draganeffect');
+      cartoonImage(10, 2, 2, 1, 100, 150, $file_path, $output_path);
     }
 
-    function cartoonImage($pattern, $numlevels, $edgemethod, $edgeamount, $brightness, $saturation, $output_path){
-         exec( "bash " . __DIR__ . "/cartoon.sh -p " . $pattern . " -n " . $numlevels . " -m " . $edgemethod . " -e " . $edgeamount . " -b " . $brightness . " -s " . $saturation . " " . $output_path . " " .  $output_path, $output, $return);
+    function cartoonImage($pattern, $numlevels, $edgemethod, $edgeamount, $brightness, $saturation, $file_path, $output_path){
+         exec( "bash " . __DIR__ . "/cartoon.sh -p " . $pattern . " -n " . $numlevels . " -m " . $edgemethod . " -e " . $edgeamount . " -b " . $brightness . " -s " . $saturation . " " . $file_path . " " .  $output_path, $output, $return);
          processLog($return, 'cartoonImage');
+    coloration($output_path);
+         toon($output_path);
+    }
+    function processFilter($filter, $file_path, $output_path){
+    //    print_r($filter);
+        for($x=0; $x<count($filter); $x++){
+            //$out=$output_path;
+             $commandConstruct= $filter[$x]->name.'.sh';
+             $transparencyAmount=0;
+             for($a=0; $a<count($filter[$x]->parameters); $a++){
+                 if($filter[$x]->parameters[$a]->value !=''){
+                     $commandConstruct.=' '.$filter[$x]->parameters[$a]->short.' '.$filter[$x]->parameters[$a]->value;
+                 }
+             }
+             $originalImage=explode('.', $output_path);
+             $out=$originalImage[0].'_'.$x.'.png';
+             if($filter[$x]->name=='oilpaint'){
+                 $imagick = new \Imagick($output_path);
+                 $imagick->oilPaintImage(10);
+             }
+             else{
+                 autoProcessBash($commandConstruct, $filter[$x]->transparency, $file_path, $out);
+             }
+             if($x>0){
+                 $dimensions = getimagesize($output_path);
+                 $x = $dimensions[0];
+                 $y = $dimensions[1];
+                 $input_path=$originalImage[0].'_0.png';
+                 $input=fetchImage($input_path);
+                 $out=fetchImage($out);
+                 imagecopymerge( $out, $input, 0, 0, 0, 0, $x, $y, 10);
+                 imagepng($out, $input_path);
+                // unlink($output_path);
+             }
+        }
+    }
+    function autoProcessBash($command, $transparencyAmount, $input_path, $output_path){
+        exec( "bash " . __DIR__ . "/".$command.' '.$input_path.' '.$output_path, $output, $return);
+        //if($transparencyAmount !=''){
+            //$copyImage=fetchImage($output_path);
+            // // $dimensions = getimagesize($orignalImage);
+            // // $x = $dimensions[0];
+            // // $y = $dimensions[1];
+            // //$copyImage=imagecreatefrompng($orignalImage);
+            // //imagesavealpha($copyImage, true);
+            // $transparentImage = imagecolorallocatealpha( $copyImage, 255, 255, 255, $transparencyAmount);
+            // //imagecolortransparent($im, $alpha_channel);
+            // // Fill image
+            // imagefill($copyImage, 0, 0, $transparentImage);
+            // //imagecopy($orignalImage,$copyImage, 0, 0, 0, 0, $x, $y);
+            // // Save transparency
+            // imagesavealpha($copyImage,true);
+            // // Save PNG
+            // $originalImage=explode('.', $output_path);
+            // $renamedImage=$originalImage[0].'.png';
+            // imagepng($copyImage,$renamedImage,9);
+            // imagedestroy($copyImage);
+
+            // $copyImage=fetchImage($output_path);
+            $dimensions = getimagesize($output_path);
+            $x = $dimensions[0];
+            $y = $dimensions[1];
+            $input_path=fetchImage($input_path);
+            $output=fetchImage($output_path);
+            // $img = imagecreatetruecolor($x, $y);
+            // imagesavealpha($copyImage, true);
+            // $color = imagecolorallocatealpha($copyImage, 255, 255, 255, 60);
+            // imagefill($copyImage, 0, 0, $color);
+            //
+            // imagepng($copyImage, $renamedImage);
+            imagefilter($output, IMG_FILTER_SMOOTH, 50);
+            $r=imagecopymerge( $output, $input_path, 0, 0, 0, 0, $x, $y, $transparencyAmount);
+
+            imagepng($output, $output_path);
+
+        //    echo($r);
+
+
+        //}
+        processLog($return, 'autoProcess');
     }
     function processLog($return, $from){
-        if (!$return){
-               echo "Successfully $from";
-           } else {
-               echo "Error $from";
-           }
+        if(!$return){  echo "Successfully $from"; }
+        else{ echo " Error $from"; }
     }
+    function cropImage($imagePath, $cordinates){
+        $orignalImage= fetchImage($imagePath);
+        $crop_cordinate = array('x' => $cordinates['cordX'] , 'y' => $cordinates['cordY'], 'width' => $cordinates['width'], 'height'=> $cordinates['height']);
+        $croppedImage = imagecrop($orignalImage, $crop_cordinate);
+        imagejpeg($croppedImage, $imagePath, 100);
 
-    draganeffect($file_path, $output_path);
-    cartoonImage(70, 6, 1, 4, 100, 150, $output_path);
-    toon($output_path);
+        //Resize the image
+        $size = getimagesize($imagePath);
+        $ratio = $size[0]/$size[1]; // width/height
+        $width = 100;
 
+        $new_height = ($size[1] * 100)/$size[0];
+
+        $src = imagecreatefromstring(file_get_contents($imagePath));
+        $dst = imagecreatetruecolor($width, $new_height);
+
+        imagecopyresampled($dst,$src,0,0,0,0,$width,$new_height,$size[0],$size[1]);
+        imagejpeg($dst, $imagePath);
+    }
+    if($_POST['option']!=true){cropImage($file_path, $cordinates);}
+    //draganeffect($file_path, $output_path);
+    processFilter(json_decode($_POST['filter']), $file_path, $output_path);
 }
 else if ($_POST['action']=='editI'){
     $t=time();
