@@ -11,16 +11,87 @@ var main=angular.module('indomieApp');
 main.controller('appCtrl',['$scope', function($scope){
     $scope.foo="bar";
 }]);
-main.controller('mainCtrl', ['$scope', function ($scope) {
-    $scope.foo="bar";
+main.controller('mainCtrl', ['$scope','userData', '$location', '$rootScope', 'AuthService', function ($scope, userData, $location, $rootScope, AuthService) {
+    $scope.user=userData.data();
+    $scope.user.allfriends=[];
+    $scope.deniedpermission=[];
+    $scope.showpermission=false;
+    $scope.logout = function() {
+    FB.logout(function(response) {
+       $scope.user.status="";
+       $scope.user.name="Resume Game"
+       $scope.user.totalscore=0;
+       $scope.user.line1=0;
+       $scope.user.line2=0;
+       $scope.user.line3=0;
+       $scope.user.facebook="";
+       $scope.user.email=0;
+       $scope.user.totalscore=0;
+       $scope.user.currentleve=1;
+       $scope.user.lastlevelscore=0;
+       $location.path('/');
+       $scope.$apply();
+    });
+  }
+  $scope.FBlogin = function() {
+      console.log('here');
+   FB.login(function(response) { }, {scope: 'public_profile,email,user_friends, publish_actions'});
+  }
+  $scope.relogin= function(){
+     $scope.user.permissions=[];
+     $scope.showpermission=false;
+     FB.login(function(response) {AuthService.watchLoginChange();}, { scope: 'public_profile,email,user_friends, publish_actions', return_scopes: true, auth_type: 'rerequest'
+  });
+ }
+
+  $scope.$on('loadFriends', function(event, data) {
+         console.log($scope.user.permissions);
+         for(var d=0; d<$scope.user.permissions.length; d++){
+             console.log($scope.user.permissions[d]);
+             if($scope.user.permissions[d].status=='declined'){
+                 var denied=$scope.user.permissions[d].permission;
+                 $scope.deniedpermission.push(denied);
+                 $scope.showpermission=true;
+                 console.log(denied)
+             }
+         }
+         $scope.FBgetfriends();
+     })
+  function getfriends(response){
+      for( var friend in response.data){
+        $scope.user.allfriends.push(response.data[friend]);
+       // $('#friends ul').append('<li><a href="#">' + friends.name + '</a></li>');
+     }
+      if( response.paging.next){
+          $.getJSON(response.paging.next, function(response){
+              getfriends(response);
+          });
+
+      }
+      else{
+         $rootScope.$broadcast('allfriendsloaded');
+         console.log('allfriendsloaded')
+         console.log($scope.user.allfriends)
+      }
+  }
+  $scope.FBgetfriends = function() {
+     FB.api(
+       "/"+$scope.user.id+"/taggable_friends",
+       function(response) {
+           if (response && !response.error) {
+             getfriends(response);
+           }
+       })
+  }
 }]);
-main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', function ($scope, $http, userData, appService) {
+main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', '$compile', '$rootScope', function ($scope, $http, userData, appService, $compile, $rootScope) {
     $scope.user=userData.data();
 
     $scope.rotatecords={angle:-12, xvalue:400, yvalue:140, contents:$scope.user.name};
     $scope.propsposition={caricatureX:203, caricatureY:92, caricatureW:100, caricatureH:118, categoryTemplateX:140, categoryTemplateY:35, categoryTemplateW:228, categoryTemplateH:316}
     $scope.appflow="create-message";
     $scope.photostatus='default';
+    $scope.selectedCategory='All';
     $scope.currentAngle=0;
     $scope.voting=false;
     $scope.test=true;
@@ -31,7 +102,24 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', func
     //     {'name':'sketch', 'parameters':[{'name':'-k', 'value':'desat'}]},
     //     {}
     // ];
-    $scope.filters=[]
+    $scope.filters=[];
+    $scope.costumeCategories=['All','General', 'beard'];
+    $scope.costumes=
+    [
+        {id:0, image_url:'images/glasses.png', image_height:'', image_width:'', image_category:'All_General', image_Xposition:0, image_Yposition:0},
+        {id:1, image_url:'images/beard.png', image_height:'', image_width:'', image_category:'All_Beard', image_Xposition:0, image_Yposition:0},
+        {id:2, image_url:'images/beard2.png', image_height:'', image_width:'', image_category:'All_Beard', image_Xposition:0, image_Yposition:0},
+    ];
+    $scope.createDragableElement=function(id){
+        //$scope.div = document.createElement("div");
+        console.log('here');
+        var newcostume = angular.element('<div class="drag" name='+id+' ><img src="'+$scope.costumes[id].image_url+'" id=costume'+id+' class="resize" /></div>');
+        angular.element(document.getElementById('image_containers')).append(newcostume);
+        activateDraggables();
+    //    $newElement=;
+    //    $('#image_container').append($newElement);
+    //    $scope.$apply();
+    }
     $scope.filterParameters=[
         {   name:'sketch',
             parameter:[
@@ -277,33 +365,46 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', func
 
    $scope.uploadFile=function(){
        var imageData;
-           var c = document.getElementById("user_image");
+           var c = document.getElementById("appbody");
+           console.log(c);
            console.log(c.offsetLeft);
-           var ctx = c.getContext("2d");
-           var glassFrame=document.getElementById("glassFrame");
-           console.log($scope.gFrameX, c.offsetLeft, c.offsetTop, $scope.gFrameY, $scope.gFrameW, $scope.gFrameH);
-           ctx.drawImage(glassFrame, $scope.gFrameX-150, $scope.gFrameY-245, $scope.gFrameW, $scope.gFrameH);
-           imageData = c.toDataURL("image/jpeg");
-           appService.uploadImages(imageData).then(function(response){
-               if(response!=='no Images'){
-                   $scope.user.uploadedImageUrl=response.uploaded_pic;
-                   $scope.user.status='image Uploaded';
-                   var imageData={option:$scope.test, uploadedImageUrl:$scope.user.uploadedImageUrl, cordX:$scope.cordX, cordY:$scope.cordY, width:$scope.cropWidth, height:$scope.cropHeight, filter:JSON.stringify($scope.filters) };
-                   appService.addRequest_data('cartoonImage', imageData).then(function(response){
-                       $scope.user.status='image Cartonised';
-                       $scope.user.uploadedImageUrl=$scope.user.uploadedImageUrl.split('.');
-                       $scope.user.uploadedImageUrl=$scope.user.uploadedImageUrl[0]+"_0.png";
-                       $scope.user.caricatureUrl='uploadedPicture/'+$scope.user.uploadedImageUrl;
-                       $scope.changeview('share-pic');
-                   },
-                   function(error){
-                       console.log('error this '+error)
-                   });
-                }
-           },
-           function(error){
-               console.log('Error Uploading Images '+error)
-           });
+           var cx=document.getElementById("user_image");
+           var ctx = cx.getContext("2d");
+
+           var sectionpadding= $('#image_create');
+           var paddingOffet=parseInt(sectionpadding.css('padding-left')) + 12;
+           console.log($scope.costumes);
+          // console.log($scope.gFrameX, $scope.gFrameX-c.offsetLeft-paddingOffet, $scope.gFrameY, c.offsetTop,  $scope.gFrameW, $scope.gFrameH);
+          for($x=0; $x<$scope.costumes.length; $x++){
+              if($scope.costumes[$x].image_Xposition!=0 || $scope.costumes[$x].image_Xposition!=0){
+                console.log($scope.costumes[$x]);
+                var costumer=document.getElementById("costume"+$x);
+                console.log($scope.costumes[$x].image_Xposition-c.offsetLeft-paddingOffet,  $scope.costumes[$x].image_Yposition-247,  $scope.costumes[$x].image_width,  $scope.costumes[$x].image_height);
+                ctx.drawImage(costumer, $scope.costumes[$x].image_Xposition-c.offsetLeft-paddingOffet,  $scope.costumes[$x].image_Yposition-247,  $scope.costumes[$x].image_width,  $scope.costumes[$x].image_height);
+              }
+          }
+
+       imageData = cx.toDataURL("image/jpeg");
+       appService.uploadImages(imageData).then(function(response){
+           if(response!=='no Images'){
+               $scope.user.uploadedImageUrl=response.uploaded_pic;
+               $scope.user.status='image Uploaded';
+               var imageData={option:$scope.test, uploadedImageUrl:$scope.user.uploadedImageUrl, cordX:$scope.cordX, cordY:$scope.cordY, width:$scope.cropWidth, height:$scope.cropHeight, filter:JSON.stringify($scope.filters) };
+               appService.addRequest_data('cartoonImage', imageData).then(function(response){
+                   $scope.user.status='image Cartonised';
+                   $scope.user.uploadedImageUrl=$scope.user.uploadedImageUrl.split('.');
+                   $scope.user.uploadedImageUrl=$scope.user.uploadedImageUrl[0]+"_0.png";
+                   $scope.user.caricatureUrl='uploadedPicture/'+$scope.user.uploadedImageUrl;
+                   $scope.changeview('share-pic');
+               },
+               function(error){
+                   console.log('error this '+error)
+               });
+            }
+       },
+       function(error){
+           console.log('Error Uploading Images '+error)
+       });
 
    }
    $scope.processfilter=function(){
@@ -316,7 +417,9 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', func
        }
    }
    $scope.presentCartoon=function(){
+        $rootScope.$broadcast('allfriendsloaded');
         var c = document.getElementById("cartoonise");
+
         var ctx = c.getContext("2d");
         ctx.clearRect(0, 0, c.width, c.height);//clears the content of the canvas before drawing
         ctx.font = "30px Maven Pro";

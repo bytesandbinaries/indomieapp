@@ -80,5 +80,16 @@
     position:absolute;
     left:10px;
     top:10px;
-    display:none;
+}
+.selectedCategory{
+    padding:10px;
+    background:#ccc;
+}
+.customeContainer{
+    padding:10px;
+    background:#eee;
+}
+.costumeImage{
+    float:left;
+    padding:5px;
 }

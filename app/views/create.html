@@ -1,9 +1,9 @@
-<div ng-switch="appflow">
+<div ng-switch="appflow" >
 <section class="in-create-section" ng-switch-when="create-message">
     <p class="in-message">Introduce yourself to the world</p>
     <form>
-        <input class="in-text-area"  type="" required="required" ng-model="user.name" placeholder="My First Name is..." />
-        <input class="in-text-area"  type="" required="required" ng-model="user.lname" placeholder="My Surname is..." />
+        <input class="in-text-area"  type="" required="required" ng-model="user.name" placeholder="My Fullname is..." />
+        <!-- <input class="in-text-area"  type="" required="required" ng-model="user.lname" placeholder="My Surname is..." /> -->
         <input class="in-text-area"  type="" required="required" ng-model="user.email" placeholder="My Email is..." />
     </form>
     <a class="in-next-button" ng-click="getUserdata()">Continue</a>
@@ -30,11 +30,11 @@
     <a class="in-prev-button" ng-click="changeview('create-message')">Back</a>
     <a class="in-next-button" ng-click="changeview('upload-image')">Continue</a>
 </section>
-<section class="in-create-section" ng-switch-when="upload-image">
+<section class="in-create-section" id="image_create" ng-switch-when="upload-image">
 
     <p class="in-message">Choose a face for your image</p>
-    <div class="in-avatar-preview-area">
-        <div class="" ng-show="photostatus=='default'">
+    <div class="in-avatar-preview-area" id="image_containers">
+        <div class="photohouse" ng-show="photostatus=='default'">
             <!-- <div class="in-avatar-image" id="image_container">
                 <img ng-src="" id="user_image">
             </div> -->
@@ -45,7 +45,7 @@
 			</div>
             <span class="in-avatar-caption">Use a clear image of your face</span>
         </div>
-        <div class="webCamImage" ng-show="photostatus=='webcam'">
+        <div class="photohouse webCamImage" ng-show="photostatus=='webcam'">
             <div>
                 <div class="camera" id="camera">
                     <video id="video">Video stream not available.</video>
@@ -59,8 +59,16 @@
 
             </div>
         </div>
-        <div class="drag">
-            <img src="images/glasses.png" id="glassFrame" class="resize" />
+        <div class="drag_category">
+            <div class="selectCategory">
+                <select ng-model="selectedCategory" ng-options="o as o for o in costumeCategories" ></select>
+                <div class="customeContainer">
+                    <div class="costumeImage" ng-repeat="costume in costumes | filter:selectedCategory"  ng-click="createDragableElement(costume.id)">
+                        <img ng-src="{{costume.image_url}}" width="50px"  />
+                    </div>
+                </div>
+            </div>
+
         </div>
 
 
@@ -114,7 +122,6 @@
         <input type="text" ng-model="propsposition.categoryTemplateW"/>
         <input type="text" ng-model="propsposition.categoryTemplateH"/>
 
-
         <div class="in-action-choices-area" ng-hide="voting">
             <a class="in-share-btn" ng-click="presentCartoon()">Share on Facebook</a>
             <a class="in-share-btn">Share on Twitter</a>
@@ -139,6 +146,23 @@
     </div>
     <div ng-show="test">
         <img  ng-src="{{user.caricatureUrl}}"/>
+        <div class="fa-fb-friend-list">
+            <div ng-show="user.taggedFriends.length>0">
+                <h4>You have tagged</h4>
+                <div ng-repeat="friend in user.taggedFriends">
+                    <span>{{$index+1}}. </span><span ng-bind="friend.title"></span> <span>remove</span>
+                </div>
+            </div>
+          <label>Who would you like to share this card with?</label>
+          <angucomplete class='fa-floater' localdata="allfriends"
+                id="friendlist"
+                titlefield="name"
+                searchfields="name"
+                selectedobject="id"
+                imagefield="picture.data.url"
+                minlenght='3'
+                placeholder="Type Friend's Facebook name" />
+        </div>
     </div>
 </section>
 </div>

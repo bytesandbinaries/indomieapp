@@ -1,18 +1,17 @@
 var scope, ctrack, cc, overlay, overlayCC, drawRequest;
-
-function generateImagePreview(file){
+function activateDraggables(){
     scope = angular.element(document.getElementById('create-avartar')).scope();
-    $('.drag').css({display:'block'});
     $( ".drag" ).draggable({
     stop: function(){
     				var finalOffset = $(this).offset();
     				var finalxPos = finalOffset.left;
     				var finalyPos = finalOffset.top;
                     console.log($(this));
+                    console.log($(this).attr('name'));
     				$('#finalX').text('Final X: ' + finalxPos);
     				$('#finalY').text('Final X: ' + finalyPos);
-                    scope.gFrameX= finalxPos;
-                    scope.gFrameY=finalyPos;
+                    scope.costumes[$(this).attr('name')].image_Xposition= finalxPos;
+                    scope.costumes[$(this).attr('name')].image_Yposition=finalyPos;
                     scope.$apply();
     			}
             });
@@ -23,21 +22,25 @@ function generateImagePreview(file){
 				console.log('StopEvent fired')
 				console.log('Width:'+w);
 				console.log('Height:'+h)
-                scope.gFrameW= w;
-                scope.gFrameH=h;
+                scope.costumes[$(this).parent().attr('name')].image_width= w;
+                scope.costumes[$(this).parent().attr('name')].image_height=h;
                 scope.$apply();
 			}
         });
-        $('#image_container').droppable({
-    			accept: '.props',
-    			over : function(){
-    				$(this).animate({
-    					'border-width' : '5px',
-    					'border-color' : '#0f0'
-    				}, 500);
-    				$('.props').draggable('option','containment',$(this));
-    			}
-    		});
+}
+function generateImagePreview(file){
+    scope = angular.element(document.getElementById('create-avartar')).scope();
+
+    $('#image_container').droppable({
+			accept: '.props',
+			over : function(){
+				$(this).animate({
+					'border-width' : '5px',
+					'border-color' : '#0f0'
+				}, 500);
+				$('.props').draggable('option','containment',$(this));
+			}
+		});
     //$( ".props" ).resizable();
 
     overlay = document.getElementById('overlay');

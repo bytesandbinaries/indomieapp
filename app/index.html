@@ -33,16 +33,17 @@
 </head>
 
 <body ng-app="indomieApp" id="indomieApp">
+    <div id="fb-root"></div>
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
 
-    <div class="in-app-wrap">
-       <div class="in-app-container">
+    <div class="in-app-wrap" ng-controller="mainCtrl">
+       <div class="in-app-container" id="appbody">
         <header class="in-header-wrap">
-                 <img class="in-header-image" src="images/header_logo.png"><button class="in-header-btn">Login</button>
+                 <img class="in-header-image" src="images/header_logo.png"><button class="in-header-btn"  ng-click="FBlogin()">Login</button>
         </header>
 
         <section class="in-body-wrap" id="create-avartar" ng-view="">
@@ -104,6 +105,7 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/services.js"></script>
+        <script src="scripts/controllers/autocomplete.js"></script>
 
 
 
