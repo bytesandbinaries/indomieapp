@@ -30,7 +30,7 @@
 //  25. Title Bar
 
 @import "helpers/functions";
-@import url(http://fonts.googleapis.com/css?family=Maven+Pro:400,700);
+//@import url(http://fonts.googleapis.com/css?family=Maven+Pro:400,700);
 
 //----Type Scales------//
 $font-default:1rem;
@@ -63,11 +63,17 @@ $color-red: rgba(237, 50, 55, 1);
 $color-green: rgba(0, 168, 89, 1);
 $color-yellow: rgba(255, 242, 83, 1);
 $color-gray:rgba(62, 58, 59, 1);
-$color-white:rgba(240, 240, 240, 1);
+$color-white: rgba(242, 233, 233, 1);
 $color-white-alpha:rgba(240, 240, 240, 0.4);
 $color-white-alpha1:rgba(240, 240, 240, 0.5);
 
 //tints $ Shade------------------//
+
+$color-beige-0: rgba(234, 222, 206, 1);
+$color-beige-1: rgba(221, 209, 195, 1);
+$color-beige-2: rgba(204, 192, 180, 1);
+$color-beige-3: rgba(198, 185, 172, 1);
+$color-beige-4: rgba(178, 165, 154, 1);
 
 $color-red-tint1: lighten($color-red,8);
 $color-red-tint2: lighten($color-red,12);
@@ -157,14 +163,14 @@ $color-white-shade2: darken($color-white,35);
 // We use these to control various global styles
 // $body-background: #fff;
  $body-font-color: $color-gray-tint2;
- $body-font-family: "Maven Pro", Helvetica Neue, Helvetica, Arial, sans-serif;
+ $body-font-family: "proxima-nova-extra-condensed", Helvetica Neue, Helvetica, Arial, sans-serif;
  $body-font-weight: 400;
 // $body-font-style: normal;
 // $body-antialiased: true;
 
 // Application Colors
- $primary-color: $color-red;
- $secondary-color: $color-green;
+ $primary-color: #f33530;
+ $secondary-color: #00a859;
  $alert-color: $color-red-tint2;
  $info-color: $color-yellow-shade2;
  $success-color: $color-green-shade1;
@@ -387,15 +393,15 @@ $color-white-shade2: darken($color-white,35);
 // 11. Card
 // - - - - - - - - - - - - - - -
 
-// $card-background: #fff;
-// $card-color: isitlight($card-background);
-// $card-border: 1px solid smartscale($card-background, 7%);
-// $card-radius: $global-radius;
-// $card-shadow: 0 1px 2px rgba(#000, 0.2);
-// $card-padding: $global-padding;
-// $card-margin: 0.5rem;
+ $card-background: #fff;
+ $card-color: isitlight($card-background);
+ $card-border: 1px solid smartscale($card-background, 7%);
+ $card-radius: $global-radius;
+ $card-shadow: 0 1px 2px rgba(#000, 0.2);
+ $card-padding: $global-padding;
+ $card-margin: 0.5rem;
 
-// $card-divider-background: smartscale($card-background, 7%);
+ $card-divider-background: smartscale($card-background, 7%);
 
 // 12. Extras
 // - - - - - - - - - - - - - - -

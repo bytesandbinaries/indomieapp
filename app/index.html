@@ -15,18 +15,16 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animate.css" >
     <!-- endbuild -->
-
     <script>
-//  (function(d) {
-//    var config = {
-//      kitId: 'eci6tbu',
-//      scriptTimeout: 3000,
-//      async: true
-//    },
-//    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
-//  })(document);
-</script>
-
+      (function(d) {
+        var config = {
+          kitId: 'hwm4cdy',
+          scriptTimeout: 3000,
+          async: true
+        },
+        h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+      })(document);
+    </script>
 </head>
 
 <body ng-app="indomieApp">
@@ -37,11 +35,13 @@
     <!-- Add your site or application content here -->
 
     <div class="in-app-wrap">
-       <div class="in-app-container">
+       <div class="in-app-container">       
         <header class="in-header-wrap">
-                 <img class="in-header-image" src="images/header_logo.png"><button class="in-header-btn">Login</button>
+                 <img class="in-header-image" src="images/header_logo.png">
+<!--                 <button class="in-header-btn">Login</button>-->
         </header>
-
+       </div><!-----In app container for header----->
+       <div class="in-app-container">
         <section class="in-body-wrap"  ng-view="">
 
         </section>
@@ -53,7 +53,7 @@
                 <li class=""><a ng-href="#/vote"><span class="in-vote-icon"></span>Vote</a></li>
             </ul>
         </footer>
-      </div><!-----In app container----->
+       </div><!-----In app container for body----->
     </div><!------ In app wrapper ------->
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
