@@ -900,7 +900,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
         margin-left: 0.8rem;
         float: none; }
 
-.button, .button-group > li > a, .button-group > li > label, .button-group > li > button, .go-button, .do-button, .do-button-subdued, .in-header-btn, .in-create-button, .in-next-button, .in-prev-button, .in-change-avatar-btn, .in-upload-btn, .in-capture-btn, .in-share-btn, .in-vote-button {
+.button, .button-group > li > a, .button-group > li > label, .button-group > li > button, .go-button, .do-button, .do-button-subdued, .fb-button, .in-header-btn, .in-create-button, .in-next-button, .in-prev-button, .in-change-avatar-btn, .in-upload-btn, .in-capture-btn, .in-share-btn, .in-vote-button {
   display: inline-block;
   border: 0;
   text-align: center;
@@ -6209,7 +6209,7 @@ meta.foundation-mq {
   $dropdown-class - class to use for list items that contain a dropdown.
   $switch-class - class to use for switches inside list items.
 */
-.button, .button-group > li > a, .button-group > li > label, .button-group > li > button, .go-button, .do-button, .do-button-subdued, .in-header-btn, .in-create-button, .in-next-button, .in-prev-button, .in-change-avatar-btn, .in-upload-btn, .in-capture-btn, .in-share-btn, .in-vote-button {
+.button, .button-group > li > a, .button-group > li > label, .button-group > li > button, .go-button, .do-button, .do-button-subdued, .fb-button, .in-header-btn, .in-create-button, .in-next-button, .in-prev-button, .in-change-avatar-btn, .in-upload-btn, .in-capture-btn, .in-share-btn, .in-vote-button {
   display: inline-block;
   border: 0;
   text-align: center;
@@ -7116,6 +7116,21 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
     .do-button-subdued {
       font-size: 1.1rem; } }
 
+.fb-button {
+  font-size: 1.1rem;
+  display: block;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  background: #365899;
+  color: #f2e9e9; }
+  .fb-button:hover, .fb-button:focus {
+    background: #294273;
+    color: #f2e9e9; }
+  @media only screen and (min-width: 40em) {
+    .fb-button {
+      font-size: 1.1rem; } }
+
 .in-next-button, .in-prev-button, .in-create-button, button, .in-vote-button, h1, h2, h3, h4, h5, h6 {
   font-weight: 700; }
 
@@ -7440,10 +7455,12 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
 
 .in-input-group {
   position: relative;
-  margin-bottom: 20px; }
+  margin-bottom: 25px;
+  margin-top: 25px; }
 
 input[type=text],
 input[type=password],
+input[type=email],
 textarea,
 select {
   box-sizing: border-box;
@@ -7461,6 +7478,7 @@ select {
   z-index: 30; }
 
 textarea:hover,
+input[type=email]:hover,
 input[type=password]:hover,
 input[type=text]:hover {
   outline: none;
@@ -7475,7 +7493,8 @@ input[type=text]:hover {
 
 textarea:focus,
 input[type=text]:focus,
-input[type=password]:focus {
+input[type=password]:focus,
+input[type=email]:focus {
   outline: none;
   background: #faf6f6;
   border: none;
@@ -7522,6 +7541,8 @@ input[type=password]:focus {
 .in-form-bar:after {
   right: 50%; }
 
+input[type=email]:focus ~ .in-form-bar:before,
+input[type=email]:focus ~ .in-form-bar:after,
 input[type=password]:focus ~ .in-form-bar:before,
 input[type=password]:focus ~ .in-form-bar:after,
 input[type=text]:focus ~ .in-form-bar:before,

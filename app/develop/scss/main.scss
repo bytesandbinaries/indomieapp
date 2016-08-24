@@ -130,6 +130,25 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
         );
     }
 }
+.fb-button{
+    @extend %button;
+    @include button-size(
+        $size:medium,
+        $expand:true
+        );
+    @include button-style(
+        $background:#365899,
+        $background-hover:darken(#365899, 10),
+        $color:$color-white,
+        $style:solid
+        );
+    
+     @include breakpoint(medium){
+        @include button-size(
+        $expand:false
+        );
+    }
+}
 .in-next-button, .in-prev-button, .in-create-button, button, .in-vote-button, h1, h2, h3, h4, h5, h6{
     font-weight: 700;
 //    text-transform: uppercase;
@@ -426,10 +445,12 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
 //----------------------------//
 .in-input-group{
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    margin-top: 25px;
 }
 input[type=text],
 input[type=password],
+input[type=email],
 textarea, 
 select {
     box-sizing: border-box;
@@ -448,6 +469,7 @@ select {
 }
 
 textarea:hover,
+input[type=email]:hover,
 input[type=password]:hover,
 input[type=text]:hover{
     outline: none;
@@ -462,7 +484,8 @@ input[type=text]:hover{
 }
 textarea:focus,
 input[type=text]:focus,
-input[type=password]:focus,{
+input[type=password]:focus,
+input[type=email]:focus,{
     outline: none;
     background: $color-white-tint2;
     border: none;
@@ -510,6 +533,8 @@ input[type=password]:focus,{
 .in-form-bar:after{
     right:50%;
 }
+input[type=email]:focus ~ .in-form-bar:before,
+input[type=email]:focus ~ .in-form-bar:after,
 input[type=password]:focus ~ .in-form-bar:before,
 input[type=password]:focus ~ .in-form-bar:after,
 input[type=text]:focus ~ .in-form-bar:before,

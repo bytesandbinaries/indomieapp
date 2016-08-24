@@ -2,23 +2,32 @@
 
 <section class="content-section" ng-show="appflow=='create-message'">
    <div class="in-card">
-        <h4 class="centralize">Create an Account</h4>
+<!--        <h4 class="centralize">Create an Account</h4>-->
+        <a class="fb-button" ng-click="changeview('select-avatar')">Login with Facebook</a>
+        <p class="centralize">or Sign up with Email to continue</p>
         <div class="in-input-group">
             <input type="text" class="in-input-field" name="u-name" required>
             <span class="in-form-highlight"></span>
             <span class="in-form-bar"></span>
-            <label for="your-name">My name is</label>
+            <label for="your-name">Username</label>
             <p class="in-form-interact" >Try a moniker you would be proud of</p>
+        </div>
+        <div class="in-input-group">
+            <input type="email" class="in-input-field" name="email" required>
+            <span class="in-form-highlight"></span>
+            <span class="in-form-bar"></span>
+            <label for="your-name">Email</label>
+            <p class="in-form-interact" >Something we can reach you with</p>
         </div>
 
         <div class="in-input-group">
             <input type="password" class="in-input-field" name="password" required/>
             <span class="in-form-highlight"></span>
             <span class="in-form-bar"></span>
-            <label for="your-desc">I'm like no other because..</label>
-            <p class="in-form-interact" >140 chars. left to express your awesomeness</p>
+            <label for="your-desc">Password</label>
+            <p class="in-form-interact" >A little security always helps</p>
         </div>
-        <a class="go-button" ng-click="changeview('select-avatar')">Continue</a>
+        <a class="go-button" ng-click="changeview('select-avatar')">Sign Up</a>
     </div>
 </section>
 
