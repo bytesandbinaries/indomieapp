@@ -7215,6 +7215,27 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
     background: #ffed16;
     color: #fff; }
 
+.view-wrap {
+  padding: 60px 30px; }
+
+.view-wrap-with-sidebar {
+  padding: 60px 30px;
+  width: 100%;
+  clear: both; }
+  @media only screen and (min-width: 40em) {
+    .view-wrap-with-sidebar {
+      float: left;
+      width: 60%; } }
+
+.sidebar-wrap {
+  padding: 60px 30px;
+  width: 100%;
+  background: #ddd1c3; }
+  @media only screen and (min-width: 40em) {
+    .sidebar-wrap {
+      float: left;
+      width: 40%; } }
+
 .in-body-wrap {
   display: flex;
   height: auto;
@@ -7222,16 +7243,14 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
   backface-visibility: hidden;
   flex: 1 1 auto;
-  flex-flow: column nowrap;
-  align-items: stretch;
+  flex-flow: row wrap;
   flex-wrap: nowrap;
   align-items: stretch;
   justify-content: center;
   order: 0;
-  overflow-x: auto;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
-  padding: 60px 30px;
   background: #eadece;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px; }
@@ -7245,13 +7264,12 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
       backface-visibility: hidden;
       flex: 0 0 83.33333%;
       max-width: 83.33333%;
-      flex-flow: column nowrap;
-      align-items: stretch;
+      flex-flow: row wrap;
       flex-wrap: nowrap;
       align-items: stretch;
       justify-content: flex-start;
       order: 1;
-      overflow-x: auto;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       -ms-overflow-style: -ms-autohiding-scrollbar;
       border-bottom-left-radius: 0;
@@ -7518,6 +7536,7 @@ input[type=email]:focus {
   color: #00a859; }
 
 .in-form-interact {
+  visibility: hidden;
   margin: 5px 0 0 0;
   text-align: right; }
 

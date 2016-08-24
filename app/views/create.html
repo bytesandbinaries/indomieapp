@@ -1,95 +1,104 @@
 
+<div class="view-wrap-with-sidebar">
+    <section class="content-section" ng-show="appflow=='create-message'">
+       <div class="in-card">
+    <!--        <h4 class="centralize">Create an Account</h4>-->
+            <a class="fb-button" ng-click="changeview('select-avatar')">Login with Facebook</a>
+            <p class="centralize">or Sign up with Email to continue</p>
+            <div class="in-input-group">
+                <input type="text" class="in-input-field" name="u-name" required>
+                <span class="in-form-highlight"></span>
+                <span class="in-form-bar"></span>
+                <label for="your-name">Username</label>
+                <p class="in-form-interact" >Try a moniker you would be proud of</p>
+            </div>
+            <div class="in-input-group">
+                <input type="email" class="in-input-field" name="email" required>
+                <span class="in-form-highlight"></span>
+                <span class="in-form-bar"></span>
+                <label for="your-name">Email</label>
+                <p class="in-form-interact" >Something we can reach you with</p>
+            </div>
 
-<section class="content-section" ng-show="appflow=='create-message'">
-   <div class="in-card">
-<!--        <h4 class="centralize">Create an Account</h4>-->
-        <a class="fb-button" ng-click="changeview('select-avatar')">Login with Facebook</a>
-        <p class="centralize">or Sign up with Email to continue</p>
-        <div class="in-input-group">
-            <input type="text" class="in-input-field" name="u-name" required>
-            <span class="in-form-highlight"></span>
-            <span class="in-form-bar"></span>
-            <label for="your-name">Username</label>
-            <p class="in-form-interact" >Try a moniker you would be proud of</p>
+            <div class="in-input-group">
+                <input type="password" class="in-input-field" name="password" required/>
+                <span class="in-form-highlight"></span>
+                <span class="in-form-bar"></span>
+                <label for="your-desc">Password</label>
+                <p class="in-form-interact" >A little security always helps</p>
+            </div>
+            <a class="go-button" ng-click="changeview('select-avatar')">Sign Up</a>
         </div>
-        <div class="in-input-group">
-            <input type="email" class="in-input-field" name="email" required>
-            <span class="in-form-highlight"></span>
-            <span class="in-form-bar"></span>
-            <label for="your-name">Email</label>
-            <p class="in-form-interact" >Something we can reach you with</p>
+    </section>
+
+
+    <section class="in-create-section" ng-show="appflow=='select-avatar'">
+        <p class="in-message">Select an Avatar Below</p>
+       <div class="in-avatar-preview-area">
+           <div class="in-avatar-image">
+               <img src="">
+           </div>
+           <a zf-open="avatarCatalog" class="in-change-avatar-btn">Change Avatar
+           </a>
         </div>
-
-        <div class="in-input-group">
-            <input type="password" class="in-input-field" name="password" required/>
-            <span class="in-form-highlight"></span>
-            <span class="in-form-bar"></span>
-            <label for="your-desc">Password</label>
-            <p class="in-form-interact" >A little security always helps</p>
-        </div>
-        <a class="go-button" ng-click="changeview('select-avatar')">Sign Up</a>
-    </div>
-</section>
-
-
-<section class="in-create-section" ng-show="appflow=='select-avatar'">
-    <p class="in-message">Select an Avatar Below</p>
-   <div class="in-avatar-preview-area">
-       <div class="in-avatar-image">
-           <img src="">
+       <div zf-modal="" id="avatarCatalog" class="in-avatar-carousel-area">
+           <a zf-close="" class="in-modal-close"><span>&times;</span></a>
+           <ul class="in-avatar-carousel">
+               <li class="in-avatar-thumbnail">
+                   <img src="../images/knewbie.png">
+               </li>
+           </ul>
        </div>
-       <a zf-open="avatarCatalog" class="in-change-avatar-btn">Change Avatar
-       </a>
-    </div>
-   <div zf-modal="" id="avatarCatalog" class="in-avatar-carousel-area">
-       <a zf-close="" class="in-modal-close"><span>&times;</span></a>
-       <ul class="in-avatar-carousel">
-           <li class="in-avatar-thumbnail">
-               <img src="../images/knewbie.png">
-           </li>
-       </ul>
+
+    <a class="in-prev-button" ng-click="changeview('create-message')">Back</a>
+    <a class="in-next-button" ng-click="changeview('upload-image')">Continue</a>
+    </section>
+
+
+    <section class="in-create-section" ng-show="appflow=='upload-image'">
+
+        <p class="in-message">Choose a face for your image</p>
+        <div class="in-avatar-preview-area">
+            <div class="in-avatar-image">
+                <img ng-src="">
+            </div>
+            <span class="in-avatar-caption">Use a clear image of your face</span>
+        </div>
+        <div class="in-action-choices-area">
+
+            <button class="in-upload-btn" >Upload a photo</button>
+           <span>or</span>
+
+                <button class="in-capture-btn">Take a Webcam Photo</button>
+            </div>
+
+        <a class="in-prev-button" ng-click="changeview('select-avatar')">Back</a>
+        <a class="in-next-button" ng-click="changeview('share-pic')">Continue</a>
+    </section>
+
+
+    <section class="in-create-section" ng-show="appflow=='share-pic'">
+
+        <p class="in-message"> Congratulations You've Created your avatar</p>
+        <div class="in-avatar-preview-area">
+            <div class="in-avatar-image">
+                <img ng-src="">
+            </div>
+        </div>
+        <div class="in-action-choices-area">
+            <a class="in-share-btn">Share to Timeline</a>
+            <a class="in-share-btn">Use as Cover Photo</a>
+            <a class="in-share-btn">Tag Friends</a>
+        </div>
+        <a class="in-next-button" ng-click="" ng-href="#/vote">Submit for Voting</a>
+
+    </section>
+</div><!--view wrap with sidebar-->
+<div class="sidebar-wrap">
+   <div class="assets-wrap" ng-show="appflow !== 'create-message'">
+       <h4>Assets</h4>
+        <select>
+            <option>choose an Category</option>
+        </select>
    </div>
-
-<a class="in-prev-button" ng-click="changeview('create-message')">Back</a>
-<a class="in-next-button" ng-click="changeview('upload-image')">Continue</a>
-</section>
-
-
-<section class="in-create-section" ng-show="appflow=='upload-image'">
-
-    <p class="in-message">Choose a face for your image</p>
-    <div class="in-avatar-preview-area">
-        <div class="in-avatar-image">
-            <img ng-src="">
-        </div>
-        <span class="in-avatar-caption">Use a clear image of your face</span>
-    </div>
-    <div class="in-action-choices-area">
-
-        <button class="in-upload-btn" >Upload a photo</button>
-       <span>or</span>
-
-            <button class="in-capture-btn">Take a Webcam Photo</button>
-        </div>
-
-    <a class="in-prev-button" ng-click="changeview('select-avatar')">Back</a>
-    <a class="in-next-button" ng-click="changeview('share-pic')">Continue</a>
-</section>
-
-
-<section class="in-create-section" ng-show="appflow=='share-pic'">
-
-    <p class="in-message"> Congratulations You've Created your avatar</p>
-    <div class="in-avatar-preview-area">
-        <div class="in-avatar-image">
-            <img ng-src="">
-        </div>
-    </div>
-    <div class="in-action-choices-area">
-        <a class="in-share-btn">Share to Timeline</a>
-        <a class="in-share-btn">Use as Cover Photo</a>
-        <a class="in-share-btn">Tag Friends</a>
-    </div>
-    <a class="in-next-button" ng-click="" ng-href="#/vote">Submit for Voting</a>
-
-</section>
+</div>

@@ -232,13 +232,32 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
     border-radius: $global-rounded;
     margin-top: 24px;
 }
+.view-wrap{
+    padding: 60px 30px;
+}
+.view-wrap-with-sidebar{
+    padding: 60px 30px;
+    width: 100%;
+    clear:both;
+    @include breakpoint(medium){
+        float: left;
+        width:60%;
+    }
+}
+.sidebar-wrap{
+    padding: 60px 30px;
+    width: 100%;
+    background: $color-beige-1;
+    @include breakpoint(medium){
+        float: left;
+        width:40%;
+    }
+}
 .in-body-wrap{
     @include grid-block(
         $size:expand,
-        $orientation:vertical,
         $align:center
         );
-    padding: 60px 30px;
     background: $color-beige-0; 
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -247,7 +266,6 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
         border: 1px solid $color-beige-3;
         @include grid-block(
         $size:10,
-        $orientation:vertical,
         $order:1
         );
         border-bottom-left-radius: 0;
@@ -510,6 +528,7 @@ input[type=email]:focus,{
     color: $color-green;
 }
 .in-form-interact{
+    visibility: hidden;
     margin: 5px 0 0 0;
     text-align: right;
 }
