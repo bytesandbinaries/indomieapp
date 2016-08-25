@@ -1039,7 +1039,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
         fill: #fff;
         stroke: #fff; }
   .button.hollow {
-    border: 2px solid #00558b;
+    border: 1px solid #00558b;
     background: transparent;
     color: #00558b; }
     .button.hollow:hover, .button.hollow:focus {
@@ -1059,7 +1059,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
         fill: #008ee8;
         stroke: #008ee8; }
     .button.hollow.secondary {
-      border: 2px solid #f1f1f1;
+      border: 1px solid #f1f1f1;
       background: transparent;
       color: #f1f1f1; }
       .button.hollow.secondary:hover, .button.hollow.secondary:focus {
@@ -1079,7 +1079,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
           fill: whitesmoke;
           stroke: whitesmoke; }
     .button.hollow.success {
-      border: 2px solid #43AC6A;
+      border: 1px solid #43AC6A;
       background: transparent;
       color: #43AC6A; }
       .button.hollow.success:hover, .button.hollow.success:focus {
@@ -1099,7 +1099,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
           fill: #6dc68e;
           stroke: #6dc68e; }
     .button.hollow.warning {
-      border: 2px solid #F08A24;
+      border: 1px solid #F08A24;
       background: transparent;
       color: #F08A24; }
       .button.hollow.warning:hover, .button.hollow.warning:focus {
@@ -1119,7 +1119,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
           fill: #f4a75b;
           stroke: #f4a75b; }
     .button.hollow.alert {
-      border: 2px solid #F04124;
+      border: 1px solid #F04124;
       background: transparent;
       color: #F04124; }
       .button.hollow.alert:hover, .button.hollow.alert:focus {
@@ -1139,7 +1139,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
           fill: #f4715b;
           stroke: #f4715b; }
     .button.hollow.info {
-      border: 2px solid #A0D3E8;
+      border: 1px solid #A0D3E8;
       background: transparent;
       color: #A0D3E8; }
       .button.hollow.info:hover, .button.hollow.info:focus {
@@ -1159,7 +1159,7 @@ a, [ui-sref], [zf-open], [zf-close], [zf-toggle] {
           fill: #b8deee;
           stroke: #b8deee; }
     .button.hollow.dark {
-      border: 2px solid #232323;
+      border: 1px solid #232323;
       background: transparent;
       color: #232323; }
       .button.hollow.dark:hover, .button.hollow.dark:focus {
@@ -7493,7 +7493,7 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
 
 .in-prev-button {
   font-size: 1.43rem;
-  border: 2px solid #5e5859;
+  border: 1px solid #5e5859;
   background: transparent;
   color: #5e5859;
   float: left;
@@ -7691,7 +7691,7 @@ textarea:focus ~ .in-form-bar:after {
   width: 100%;
   margin-left: 0;
   margin-right: 0;
-  border: 2px solid #5e5859;
+  border: 1px solid #5e5859;
   background: transparent;
   color: #5e5859; }
   .in-upload-btn:hover, .in-upload-btn:focus, .in-capture-btn:hover, .in-capture-btn:focus, .in-share-btn:hover, .in-share-btn:focus {
