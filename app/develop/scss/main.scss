@@ -98,22 +98,26 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
 }
 .do-button{
     @extend %button;
-    @include button-size(
-        $size:medium,
-        $expand:true
-        );
-    @include button-style(
-        $background:$color-red-shade1,
-        $background-hover:$color-red-shade2,
-        $color:$color-white,
-        $style:solid
-        );
-     @include breakpoint(medium){
+    @include breakpoint(medium){
         @include button-size(
-        $size:medium,
+        $size:small,
         $expand:false
         );
     }
+    @include button-size(
+        $size:small,
+        $expand:true
+        );
+    @include button-style(
+        $background:$color-beige-1,
+        $background-hover:$color-beige-2,
+        $color:$color-beige-3,
+        $style:solid
+        );
+    border-radius: $global-rounded;
+    border: 1px solid $color-beige-3;
+    
+    
 }
 .do-button-subdued{
     @extend %button;
@@ -250,26 +254,26 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
     margin-top: 24px;
 }
 .view-wrap{
-    padding: 60px 30px;
+    padding: 60px 15px;
 }
 .view-wrap-with-sidebar{
     @include grid-block(
         $size: 12
         );
-    padding: 60px 30px;
+    padding: 60px 7.5px;
     @include breakpoint(medium){
-        @include grid-size(7);
+        @include grid-size(8);
     }
 }
 .sidebar-wrap{
     @include grid-block(
         $size: 12
         );
-    padding: 60px 30px;
+    padding: 60px 7.5px;
     background: $color-beige-1;
     
     @include breakpoint(medium){
-        @include grid-size(5);
+        @include grid-size(4);
         border-top-right-radius: $edge-curve;
         border-bottom-right-radius: $edge-curve;
     }
@@ -375,8 +379,8 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
     background: url('../images/vote.png');
 }
 .in-icon, .in-home-icon, .in-vote-icon, .in-create-icon{
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
     background-size: contain;
     background-position: center left;
     background-repeat: no-repeat;
@@ -591,26 +595,22 @@ textarea:focus ~ .in-form-bar:after{
 //------------------------//
 .canvas-wrap{
     box-sizing: border-box;
+    background: $color-white;
     position: relative;
-    border: 1px dashed $color-white-shade2;
+//    border: 1px dashed $color-beige-3;
     border-radius: $global-radius;
     margin: 0 auto;
-    height:300px;
-    padding: 10px;
+    height:500px;
+    padding: px;
 }
 .canvas{
     box-sizing: border-box;
     width: 100%;
     height:100%;
 //    margin: 15px;
-    background: $color-white-shade1;
+    background: $color-beige-3;
 }
 .in-change-avatar-btn{
-    position: absolute;
-    bottom: 20px;
-    width: 150px;
-    margin-left: -75px;
-    left: 50%;
     @extend %button;
     @include button-size(
         $size:tiny,
@@ -624,7 +624,12 @@ textarea:focus ~ .in-form-bar:after{
         );
     border-radius: $global-rounded;
     border: 1px solid $color-white-shade2;
-    }
+    position: absolute;
+    bottom: 20px;
+    width: 150px;
+    margin-left: -75px;
+    left: 50%;
+}
 
 .in-avatar-carousel-area{
     background: rgba(237, 50, 50, 0.8);

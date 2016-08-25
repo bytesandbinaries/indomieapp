@@ -17,7 +17,6 @@
                 <label for="your-name">Email</label>
                 <p class="in-form-interact" >Something we can reach you with</p>
             </div>
-
             <div class="in-input-group">
                 <input type="password" class="in-input-field" name="password" required/>
                 <span class="in-form-highlight"></span>
@@ -28,27 +27,23 @@
             <a class="go-button" ng-click="changeview('create-image')">Sign Up</a>
     </section>
 
-
     <section class="content-wrap" ng-show="appflow=='create-image'">
-        <p class="in-message">Create Your Custom Image</p>
-       <div class="in-avatar-preview-area canvas-wrap">
+        <h4 class="">Create Your Custom Image</h4>
+        <div class="in-avatar-preview-area canvas-wrap">
            <div class="in-avatar-image canvas"></div>           
         </div>
         <div class="in-action-choices-area">
-
-            <button class="in-upload-btn" >Upload a photo</button>
+            <button class="do-button" >Upload a photo</button>
             <span>or</span>
-
-            <button class="in-capture-btn">Take a Webcam Photo</button>
+            <button class="do-button">Take a Webcam Photo</button>
         </div>
         <a class="back-button float-left" ng-click="changeview('create-message')">Back</a>
-    <a class="go-button float-right" ng-click="changeview('share-pic')">Continue</a>
+        <a class="go-button float-right" ng-click="changeview('share-pic')">Continue</a>
     </section>
 
 
     <section class="content-wrap" ng-show="appflow=='share-pic'">
-
-        <p class="in-message"> Congratulations You've Created your avatar</p>
+        <h4 class=""> Congratulations You've Created Your Custom Image!</h4>
         <div class="in-avatar-preview-area">
             <div class="in-avatar-image">
                 <img ng-src="">
@@ -60,13 +55,13 @@
             <a class="in-share-btn">Tag Friends</a>
         </div>
         <a class="go-button float-right" ng-click="" ng-href="#/vote">Submit for Voting</a>
-
     </section>
 </div><!--view wrap with sidebar-->
+
 <div class="sidebar-wrap">
-   <div class="content-wrap assets-wrap" ng-show="appflow !== 'create-message'">
+   <div class="content-wrap asset-wrap" ng-show="appflow !== 'create-message'">
         <select>
-            <option>Choose an Asset Category</option>
+            <option>Choose Asset Category</option>
         </select>
    </div>
 </div><!-- sidebar-->
