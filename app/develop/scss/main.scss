@@ -65,6 +65,7 @@ $foundation-version: '1.2.0';
 //
 $shadow-bottom: 0px 2px 2px -2px rgba(0, 0, 0, .82);
 $shadow-top: 0px -2px 2px -2px rgba(0, 0, 0, .82);
+$edge-curve: 15px;
 
 body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
     font-family: $body-font-family;
@@ -91,6 +92,9 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
         $expand:false
         );
     }
+}
+.go-button.float-right{
+    margin-right: 0;
 }
 .do-button{
     @extend %button;
@@ -156,6 +160,9 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
 .centralize{
     text-align:center;
 }
+.content-wrap{
+    @include grid-content();
+}
 .content-section{
     padding-top:30px;
     padding-bottom:30px;
@@ -214,6 +221,16 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
     margin-left: 50%;
     left: -65px;
     z-index: $z5;
+    @include breakpoint(medium){
+        display: block;
+        position: relative;
+        top: -2px;
+        left: 0;
+        width: 130px;
+        margin-left: 0;
+        left: 0;
+        z-index: $z5;
+    }
 }
 .in-header-btn{
     box-sizing: border-box;
@@ -236,27 +253,32 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
     padding: 60px 30px;
 }
 .view-wrap-with-sidebar{
+    @include grid-block(
+        $size: 12
+        );
     padding: 60px 30px;
-    width: 100%;
-    clear:both;
     @include breakpoint(medium){
-        float: left;
-        width:60%;
+        @include grid-size(7);
     }
 }
 .sidebar-wrap{
+    @include grid-block(
+        $size: 12
+        );
     padding: 60px 30px;
-    width: 100%;
     background: $color-beige-1;
+    
     @include breakpoint(medium){
-        float: left;
-        width:40%;
+        @include grid-size(5);
+        border-top-right-radius: $edge-curve;
+        border-bottom-right-radius: $edge-curve;
     }
 }
 .in-body-wrap{
     @include grid-block(
-        $size:expand,
-        $align:center
+        $size:12,
+        $align:center,
+        $orientation:vertical
         );
     background: $color-beige-0; 
     border-top-left-radius: 15px;
@@ -264,15 +286,16 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6{
     
     @include breakpoint(medium){
         border: 1px solid $color-beige-3;
-        @include grid-block(
-        $size:10,
-        $order:1
-        );
+        @include grid-size(10);
+        @include grid-order(1);
+        @include grid-orient(horizontal);
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
         border-bottom-right-radius: 15px;
         border-top-right-radius: 15px;
     }
+}
+.asset-wrap{
 }
 .in-footer-wrap{
     width: 100%;
@@ -566,7 +589,8 @@ textarea:focus ~ .in-form-bar:after{
 
 //---Your Avatar section--//
 //------------------------//
-.in-avatar-preview-area{
+.canvas-wrap{
+    box-sizing: border-box;
     position: relative;
     border: 1px dashed $color-white-shade2;
     border-radius: $global-radius;
@@ -574,7 +598,7 @@ textarea:focus ~ .in-form-bar:after{
     height:300px;
     padding: 10px;
 }
-.in-avatar-image{
+.canvas{
     box-sizing: border-box;
     width: 100%;
     height:100%;

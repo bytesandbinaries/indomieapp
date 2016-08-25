@@ -7086,6 +7086,9 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
     .go-button {
       font-size: 1.1rem; } }
 
+.go-button.float-right {
+  margin-right: 0; }
+
 .do-button {
   font-size: 1.1rem;
   display: block;
@@ -7136,6 +7139,14 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
 
 .centralize {
   text-align: center; }
+
+.content-wrap {
+  display: block;
+  padding: 0 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  flex: 1 1 auto; }
 
 .content-section {
   padding-top: 30px;
@@ -7202,6 +7213,16 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
   margin-left: 50%;
   left: -65px;
   z-index: 50; }
+  @media only screen and (min-width: 40em) {
+    .in-header-image {
+      display: block;
+      position: relative;
+      top: -2px;
+      left: 0;
+      width: 130px;
+      margin-left: 0;
+      left: 0;
+      z-index: 50; } }
 
 .in-header-btn {
   box-sizing: border-box;
@@ -7219,22 +7240,51 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
   padding: 60px 30px; }
 
 .view-wrap-with-sidebar {
-  padding: 60px 30px;
-  width: 100%;
-  clear: both; }
+  display: flex;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  backface-visibility: hidden;
+  flex: 0 0 100%;
+  max-width: 100%;
+  flex-flow: row wrap;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  order: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  padding: 60px 30px; }
   @media only screen and (min-width: 40em) {
     .view-wrap-with-sidebar {
-      float: left;
-      width: 60%; } }
+      flex: 0 0 58.33333%;
+      max-width: 58.33333%; } }
 
 .sidebar-wrap {
+  display: flex;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  backface-visibility: hidden;
+  flex: 0 0 100%;
+  max-width: 100%;
+  flex-flow: row wrap;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  order: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
   padding: 60px 30px;
-  width: 100%;
   background: #ddd1c3; }
   @media only screen and (min-width: 40em) {
     .sidebar-wrap {
-      float: left;
-      width: 40%; } }
+      flex: 0 0 41.66667%;
+      max-width: 41.66667%;
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px; } }
 
 .in-body-wrap {
   display: flex;
@@ -7242,13 +7292,15 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
   position: relative;
   overflow: hidden;
   backface-visibility: hidden;
-  flex: 1 1 auto;
-  flex-flow: row wrap;
+  flex: 0 0 100%;
+  max-width: 100%;
+  flex-flow: column nowrap;
+  align-items: stretch;
   flex-wrap: nowrap;
   align-items: stretch;
   justify-content: center;
   order: 0;
-  overflow-y: auto;
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   background: #eadece;
@@ -7257,21 +7309,10 @@ body, p, button, a, ul, li, h1, h2, h3, h4, h5, h6 {
   @media only screen and (min-width: 40em) {
     .in-body-wrap {
       border: 1px solid #c6b9ac;
-      display: flex;
-      height: auto;
-      position: relative;
-      overflow: hidden;
-      backface-visibility: hidden;
       flex: 0 0 83.33333%;
       max-width: 83.33333%;
-      flex-flow: row wrap;
-      flex-wrap: nowrap;
-      align-items: stretch;
-      justify-content: flex-start;
       order: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      -ms-overflow-style: -ms-autohiding-scrollbar;
+      flex-flow: row wrap;
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
       border-bottom-right-radius: 15px;
@@ -7570,7 +7611,8 @@ textarea:focus ~ .in-form-bar:before,
 textarea:focus ~ .in-form-bar:after {
   width: 50%; }
 
-.in-avatar-preview-area {
+.canvas-wrap {
+  box-sizing: border-box;
   position: relative;
   border: 1px dashed #b07979;
   border-radius: 4px;
@@ -7578,7 +7620,7 @@ textarea:focus ~ .in-form-bar:after {
   height: 300px;
   padding: 10px; }
 
-.in-avatar-image {
+.canvas {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
