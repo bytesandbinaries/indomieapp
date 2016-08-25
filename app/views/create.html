@@ -1,6 +1,5 @@
-
 <div class="view-wrap-with-sidebar" ng-switch="appflow" id='create-avartar'>
-    <section class="content-wrap" ng-switch-when='create-message'>
+    <section class="content-wrap" ng-switch-when="create-message">
             <a class="fb-button" ng-click="FBlogin()">Login with Facebook</a>
             <p class="centralize">or Sign up with Email to continue</p>
             <form>
@@ -90,30 +89,31 @@
         </div>
         <a class="go-button float-right" ng-click="" ng-href="#/vote">Submit for Voting</a>
     </section>
-</div>
-<!--view wrap with sidebar-->
-<div class="sidebar-wrap drag_category">
-   <div class="assets-wrap content-wrap selectCategory" ng-show="appflow !== 'create-message'">
-       <!-- <h4>Assets</h4> -->
-        <select ng-model="selectedCategory" ng-options="o as o for o in costumeCategories" ></select>
-        <div class="customeContainer">
-            <div class="costumeImage" ng-repeat="costume in costumes | filter:selectedCategory"  ng-click="createDragableElement(costume.id)">
-                <img ng-src="{{costume.image_url}}" width="50px"  />
-            </div>
-        </div>
-        <div ng-repeat="filter in filters">
-            <select ng-options="item as item.name for item in filterParameters" ng-model="selected" ng-change="filterSelected(filter, selected)"></select>
-            <div ng-show="selected.parameter.length > 0">
-                <div>Parameters</div>
-                <div ng-repeat="para in selected.parameter">
-                    <div ng-model="para.name"></div>
-                    <select ng-show="para.type=='s'" ng-options="o as o for o in para.values" ng-model="filter.parameters[$index].value" ></select>
-                    <input ng-show="para.type=='t'" type="text" placeholder="vales between {{para.values[0]}} and {{para.values[1]}}" ng-model="filter.parameters[$index].value" >
+
+    <!--view wrap with sidebar-->
+    <div class="sidebar-wrap drag_category">
+       <div class="assets-wrap content-wrap selectCategory" ng-show="appflow !== 'create-message'">
+           <!-- <h4>Assets</h4> -->
+            <select ng-model="selectedCategory" ng-options="o as o for o in costumeCategories" ></select>
+            <div class="customeContainer">
+                <div class="costumeImage" ng-repeat="costume in costumes | filter:selectedCategory"  ng-click="createDragableElement(costume.id)">
+                    <img ng-src="{{costume.image_url}}" width="50px"  />
                 </div>
-                <input type="text" ng-model="filter.transparency" placeholder="Add transparency to blend this effect with another"/>
             </div>
-        </div>
-        <button ng-click="addfilter()">Add Filter</button>
-        <input type="checkbox" ng-model="test" name="displaytype"/><label> Testing</label>
-   </div>
+            <div ng-repeat="filter in filters">
+                <select ng-options="item as item.name for item in filterParameters" ng-model="selected" ng-change="filterSelected(filter, selected)"></select>
+                <div ng-show="selected.parameter.length > 0">
+                    <div>Parameters</div>
+                    <div ng-repeat="para in selected.parameter">
+                        <div ng-model="para.name"></div>
+                        <select ng-show="para.type=='s'" ng-options="o as o for o in para.values" ng-model="filter.parameters[$index].value" ></select>
+                        <input ng-show="para.type=='t'" type="text" placeholder="vales between {{para.values[0]}} and {{para.values[1]}}" ng-model="filter.parameters[$index].value" >
+                    </div>
+                    <input type="text" ng-model="filter.transparency" placeholder="Add transparency to blend this effect with another"/>
+                </div>
+            </div>
+            <button ng-click="addfilter()">Add Filter</button>
+            <input type="checkbox" ng-model="test" name="displaytype"/><label> Testing</label>
+       </div>
+    </div>
 </div>
