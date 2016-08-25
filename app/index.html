@@ -9,11 +9,15 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/motion-ui/dist/motion-ui.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> -->
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animate.css" >
+    <link rel="stylesheet" href="styles/style.css" >
+
     <!-- endbuild -->
     <script>
       (function(d) {
@@ -27,15 +31,17 @@
     </script>
 </head>
 
-<body ng-app="indomieApp">
+<body ng-app="indomieApp" id="indomieApp">
+    <div id="fb-root"></div>
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
 
-    <div class="in-app-wrap">
-       <div class="in-app-container">       
+<!-- <<<<<<< HEAD -->
+    <div class="in-app-wrap"  ng-controller="mainCtrl">
+       <div class="in-app-container" id="appbody">
         <header class="in-header-wrap">
                  <img class="in-header-image" src="images/header_logo.png">
 <!--                 <button class="in-header-btn">Login</button>-->
@@ -43,6 +49,15 @@
        </div><!-----In app container for header----->
        <div class="in-app-container">
         <section class="in-body-wrap"  ng-view="">
+<!-- =======
+    <div class="in-app-wrap" ng-controller="mainCtrl">
+       <div class="in-app-container" id="appbody">
+        <header class="in-header-wrap">
+                 <img class="in-header-image" src="images/header_logo.png"><button class="in-header-btn"  ng-click="FBlogin()">Login</button>
+        </header>
+
+        <section class="in-body-wrap" id="create-avartar" ng-view="">
+>>>>>>> master -->
 
         </section>
 
@@ -85,13 +100,26 @@
     <script src="bower_components/hammerjs/hammer.js"></script>
     <script src="bower_components/foundation-apps/dist/js/foundation-apps.js"></script>
     <script src="bower_components/foundation-apps/dist/js/foundation-apps-templates.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
     <!-- endbower -->
     <!-- endbuild -->
+
+    <script src="scripts/numeric.js"></script>
+    <script src="scripts/stats.js"></script>
+    <script src="scripts/jsfeat.js"></script>
+    <script src="scripts/clmtracker.js"></script>
+    <script src="scripts/clmodel.js"></script>
+    <script src="scripts/clmodel_2.js"></script>
+    <script src="scripts/imageprocess.js"></script>
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/services.js"></script>
+        <script src="scripts/controllers/autocomplete.js"></script>
+
+
 
         <!-- works with the text animation -->
 

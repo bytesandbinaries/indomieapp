@@ -11,11 +11,13 @@
     "angular-touch": "^1.3.0",
     "motion-ui": "~1.1.0",
     "foundation-apps": "^1.2.0"
-
   },
   "devDependencies": {
     "angular-mocks": "^1.3.0"
   },
   "appPath": "app",
-  "moduleName": "indomieApp"
- }
+  "moduleName": "indomieApp",
+  "resolutions": {
+    "angular": "1.4.12"
+  }
+}
