@@ -3254,10 +3254,46 @@ body { /* Addresses a small issue in webkit: http://bit.ly/NEdoDq */
     -o-animation-timing-function: ease-in;
     animation-timing-function: ease-in;
 }
-
 .animated.wiggle {
     -webkit-animation-duration: 0.75s;
     -moz-animation-duration: 0.75s;
     -o-animation-duration: 0.75s;
     animation-duration: 0.75s;
+}
+
+/* Image Rotate */
+#user_image {
+    transform-origin: top left; /* IE 10+, Firefox, etc. */
+    -webkit-transform-origin: top left; /* Chrome */
+    -ms-transform-origin: top left; /* IE 9 */
+}
+#user_image.rotate90 {
+    transform: rotate(90deg) translateY(-100%);
+    -webkit-transform: rotate(90deg) translateY(-100%);
+    -ms-transform: rotate(90deg) translateY(-100%);
+}
+#user_image.rotate180 {
+    transform: rotate(180deg) translate(-100%,-100%);
+    -webkit-transform: rotate(180deg) translate(-100%,-100%);
+    -ms-transform: rotate(180deg) translateX(-100%,-100%);
+}
+#user_image.rotate270 {
+    transform: rotate(270deg) translateX(-100%);
+    -webkit-transform: rotate(270deg) translateX(-100%);
+    -ms-transform: rotate(270deg) translateX(-100%);
+}
+#user_image.rotate-90 {
+    transform: rotate(-90deg) translateY(-100%);
+    -webkit-transform: rotate(90deg) translateY(-100%);
+    -ms-transform: rotate(90deg) translateY(-100%);
+}
+#user_image.rotate-180 {
+    transform: rotate(-180deg) translate(-100%,-100%);
+    -webkit-transform: rotate(-180deg) translate(-100%,-100%);
+    -ms-transform: rotate(-180deg) translateX(-100%,-100%);
+}
+#user_image.rotate-270 {
+    transform: rotate(-270deg) translateX(-100%,-100%);
+    -webkit-transform: rotate(-270deg) translateX(-100%,-100%);
+    -ms-transform: rotate(-270deg) translateX(-100%,-100%);
 }
