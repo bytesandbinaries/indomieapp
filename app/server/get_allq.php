@@ -37,7 +37,7 @@ if($_POST['action']=='additem'){
 }
 else if($_POST['action'] =='cartoonImage'){
     //print_r($_POST['user']);
-
+    $para=[(object)["name"=>"cartoon","parameters"=>[(object)["short"=>"-p","value"=>"100"],(object)["short"=>"-n","value"=>""],(object)["short"=>"-m","value"=>""],(object)["short"=>"-e","value"=>"0"],(object)["short"=>"-b","value"=>""],(object)["short"=>"-s","value"=>""]]]];
     $file_path = dirname(__DIR__)."/uploadedPicture/".$_POST['uploadedImageUrl'];
     $output_path= dirname(__DIR__)."/uploadedPicture/".$_POST['uploadedImageUrl'];
 
@@ -94,9 +94,7 @@ else if($_POST['action'] =='cartoonImage'){
          toon($output_path);
     }
     function processFilter($filter, $file_path, $output_path){
-    //    print_r($filter);
         for($x=0; $x<count($filter); $x++){
-            //$out=$output_path;
              $commandConstruct= $filter[$x]->name.'.sh';
              $transparencyAmount=0;
              for($a=0; $a<count($filter[$x]->parameters); $a++){
@@ -196,7 +194,7 @@ else if($_POST['action'] =='cartoonImage'){
     }
     if($_POST['option']!=true){cropImage($file_path, $cordinates);}
     //draganeffect($file_path, $output_path);
-    processFilter(json_decode($_POST['filter']), $file_path, $output_path);
+    processFilter($para, $file_path, $output_path);
 }
 else if ($_POST['action']=='editI'){
     $t=time();

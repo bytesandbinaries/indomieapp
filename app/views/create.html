@@ -99,19 +99,21 @@
                 <img ng-src="{{costume.image_url}}" width="50px"  />
             </div>
         </div>
-        <div ng-repeat="filter in filters">
-            <select ng-options="item as item.name for item in filterParameters" ng-model="selected" ng-change="filterSelected(filter, selected)"></select>
-            <div ng-show="selected.parameter.length > 0">
-                <div>Parameters</div>
-                <div ng-repeat="para in selected.parameter">
-                    <div ng-model="para.name"></div>
-                    <select ng-show="para.type=='s'" ng-options="o as o for o in para.values" ng-model="filter.parameters[$index].value" ></select>
-                    <input ng-show="para.type=='t'" type="text" placeholder="vales between {{para.values[0]}} and {{para.values[1]}}" ng-model="filter.parameters[$index].value" >
+        <div style="display:none">
+            <div ng-repeat="filter in filters">
+                <select ng-options="item as item.name for item in filterParameters" ng-model="selected" ng-change="filterSelected(filter, selected)"></select>
+                <div ng-show="selected.parameter.length > 0">
+                    <div>Parameters</div>
+                    <div ng-repeat="para in selected.parameter">
+                        <div ng-model="para.name"></div>
+                        <select ng-show="para.type=='s'" ng-options="o as o for o in para.values" ng-model="filter.parameters[$index].value" ></select>
+                        <input ng-show="para.type=='t'" type="text" placeholder="vales between {{para.values[0]}} and {{para.values[1]}}" ng-model="filter.parameters[$index].value" >
+                    </div>
+                    <input type="text" ng-model="filter.transparency" placeholder="Add transparency to blend this effect with another"/>
                 </div>
-                <input type="text" ng-model="filter.transparency" placeholder="Add transparency to blend this effect with another"/>
             </div>
+            <button ng-click="addfilter()">Add Filter</button>
+            <input type="checkbox" ng-model="test" name="displaytype"/><label> Testing</label>
         </div>
-        <button ng-click="addfilter()">Add Filter</button>
-        <input type="checkbox" ng-model="test" name="displaytype"/><label> Testing</label>
    </div>
 </div>
