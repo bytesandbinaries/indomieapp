@@ -1,95 +1,117 @@
-<!--<div class="view-sidebar-container">-->
-<div class="view-wrap-with-sidebar">
-    <section class="content-wrap" ng-show="appflow=='create-message'">
-            <a class="fb-button" ng-click="changeview('select-avatar')">Login with Facebook</a>
+<div class="view-wrap-with-sidebar" ng-switch="appflow" id='create-avartar'>
+    <section class="content-wrap" ng-switch-when="create-message">
+            <a class="fb-button" ng-click="FBlogin()">Login with Facebook</a>
             <p class="centralize">or Sign up with Email to continue</p>
-            <div class="in-input-group">
-                <input type="text" class="in-input-field" name="u-name" required>
-                <span class="in-form-highlight"></span>
-                <span class="in-form-bar"></span>
-                <label for="your-name">Username</label>
-                <p class="in-form-interact" >Try a moniker you would be proud of</p>
-            </div>
-            <div class="in-input-group">
-                <input type="email" class="in-input-field" name="email" required>
-                <span class="in-form-highlight"></span>
-                <span class="in-form-bar"></span>
-                <label for="your-name">Email</label>
-                <p class="in-form-interact" >Something we can reach you with</p>
-            </div>
-            <div class="in-input-group">
-                <input type="password" class="in-input-field" name="password" required/>
-                <span class="in-form-highlight"></span>
-                <span class="in-form-bar"></span>
-                <label for="your-desc">Password</label>
-                <p class="in-form-interact" >A little security always helps</p>
-            </div>
-            <a class="go-button" ng-click="changeview('create-image')">Sign Up</a>
+            <form>
+                <div class="in-input-group">
+                    <input type="text" class="in-input-field" name="u-name" required ng-model="user.name">
+                    <span class="in-form-highlight"></span>
+                    <span class="in-form-bar"></span>
+                    <label for="your-name">Username</label>
+                    <p class="in-form-interact" >Try a moniker you would be proud of</p>
+                </div>
+                <div class="in-input-group">
+                    <input type="email" class="in-input-field" name="email" required ng-model="user.email">
+                    <span class="in-form-highlight"></span>
+                    <span class="in-form-bar"></span>
+                    <label for="your-name">Email</label>
+                    <p class="in-form-interact" >Something we can reach you with</p>
+                </div>
+                <a class="go-button"  ng-click="getUserdata()">Continue</a>
+            </form>
     </section>
 
-    <section class="content-wrap" ng-show="appflow=='create-image'">
-        <h4 class="">Create Your Custom Image</h4>
-        <div class="in-avatar-preview-area canvas-wrap">
-           <div class="in-avatar-image canvas"></div>           
+    <section class="content-wrap" id="image_create" ng-switch-when="upload-image">
+
+        <p class="in-message">Create Your Custom Image</p>
+        <div class="in-avatar-preview-area canvas-wrap"  id="image_containers">
+            <div class="in-avatar-image canvas" id="image_container">
+				<canvas id="user_image" width="" height=""></canvas>
+				<canvas id="overlay" width="auto" height="auto"></canvas>
+                <div id="convergence"></div>
+			</div>
+            <div class="in-avatar-image canvas photohouse webCamImage" ng-show="photostatus=='webcam'">
+                <div>
+                    <div class="camera" id="camera">
+                        <video id="video">Video stream not available.</video>
+                        <div id="startbutton">Take photo</div>
+                    </div>
+                    <div id="output" class="output">
+                        <img id="photo"  alt="The screen capture will appear in this box.">
+                        <div class="webaction" ng-click="takeAnotherPhoto()" id="clearPicture">Take Another photo</div>
+                        <div class="webaction" ng-click="usePhoto()" id="usePhoto">Use this photo</div>
+                    </div>
+                </div>
+            </div>
+            <span class="in-avatar-caption">Use a clear image of your face</span>
         </div>
+
         <div class="in-action-choices-area">
-            <button class="do-button" >Upload a photo</button>
+            <input style="display:none" type="file" id="imageUploader" name="previewUrl" accept="image/*" file-model="user.previewUrl" onchange="generateImagePreview(this)"/>
+            <button class="in-upload-btn" ng-click="callImagePreview()" >Upload a photo</button>
             <span>or</span>
-            <button class="do-button">Take a Webcam Photo</button>
+            <button class="in-capture-btn" ng-click="startWebCamera()">Take a Webcam Photo</button>
         </div>
-        <a class="back-button float-left" ng-click="changeview('create-message')">Back</a>
-        <a class="go-button float-right" ng-click="changeview('share-pic')">Continue</a>
+
+        <a class="back-button float-left" ng-click="changeview('select-avatar')">Back</a>
+        <a class="go-button float-right" ng-click="uploadFile()">Continue</a>
     </section>
-
-
-    <section class="content-wrap" ng-show="appflow=='share-pic'">
-        <h4 class=""> Congratulations You've Created Your Custom Image!</h4>
+    <!-- <section class="in-create-section" ng-switch-when="share-pic" ng-init="presentCartoon()"> -->
+    <section class="content-wrap" ng-switch-when="share-pic" >
+        <p class="in-message"> Congratulations You've Created your avatar</p>
         <div class="in-avatar-preview-area">
             <div class="in-avatar-image">
-                <img ng-src="">
+                <img  ng-src="{{user.caricatureUrl}}"/>
+            </div>
+            <div class="fa-fb-friend-list">
+                <div ng-show="user.taggedFriends.length>0">
+                    <h4>You have tagged</h4>
+                    <div ng-repeat="friend in user.taggedFriends">
+                        <span>{{$index+1}}. </span><span ng-bind="friend.title"></span> <span>remove</span>
+                    </div>
+                </div>
+              <label>Who would you like to share this card with?</label>
+              <angucomplete class='fa-floater' localdata="allfriends"
+                    id="friendlist"
+                    titlefield="name"
+                    searchfields="name"
+                    selectedobject="id"
+                    imagefield="picture.data.url"
+                    minlenght='3'
+                    placeholder="Type Friend's Facebook name" />
             </div>
         </div>
         <div class="in-action-choices-area">
             <a class="in-share-btn">Share to Timeline</a>
             <a class="in-share-btn">Use as Profile Photo</a>
-            <a class="in-share-btn">Tag Friends</a>
+            <a class="in-share-btn" ng-click="tagfriends()">Tag Friends</a>
         </div>
         <a class="go-button float-right" ng-click="" ng-href="#/vote">Submit for Voting</a>
     </section>
-</div><!--view wrap with sidebar-->
-
-<div class="sidebar-wrap">
-   <div class="content-wrap asset-wrap" ng-show="appflow !== 'create-message'">
-        <select>
-            <option>Choose Asset Category</option>
-        </select>
-   </div>
-</div><!-- sidebar-->
-<!--</div>view sidebar container-->
-
-<!--
-<a zf-open="avatarCatalog" class="in-change-avatar-btn">Change Avatar</a>
-       <div zf-modal="" id="avatarCatalog" class="in-avatar-carousel-area">
-           <a zf-close="" class="in-modal-close"><span>&times;</span></a>
-           <ul class="in-avatar-carousel">
-               <li class="in-avatar-thumbnail">
-                   <img src="../images/knewbie.png">
-               </li>
-           </ul>
-       </div>
--->
-<!--
-   <section class="in-create-section" ng-show="appflow=='upload-image'">
-
-        <p class="in-message">Choose a face for your image</p>
-        <div class="in-avatar-preview-area">
-            <div class="in-avatar-image">
-                <img ng-src="">
+</div>
+<!--view wrap with sidebar-->
+<div class="sidebar-wrap drag_category">
+   <div class="assets-wrap content-wrap selectCategory" ng-show="appflow == 'upload-image' && imageadded">
+       <!-- <h4>Assets</h4> -->
+        <select ng-model="selectedCategory" ng-options="o as o for o in costumeCategories" ></select>
+        <div class="customeContainer">
+            <div class="costumeImage" ng-repeat="costume in costumes | filter:selectedCategory"  ng-click="createDragableElement(costume.id)">
+                <img ng-src="{{costume.image_url}}" width="50px"  />
             </div>
-            <span class="in-avatar-caption">Use a clear image of your face</span>
         </div>
-        
-
-        <a class="in-prev-button" ng-click="changeview('select-avatar')">Back</a>
-        <a class="in-next-button" ng-click="changeview('share-pic')">Continue</a>
-    </section>-->
+        <div ng-repeat="filter in filters">
+            <select ng-options="item as item.name for item in filterParameters" ng-model="selected" ng-change="filterSelected(filter, selected)"></select>
+            <div ng-show="selected.parameter.length > 0">
+                <div>Parameters</div>
+                <div ng-repeat="para in selected.parameter">
+                    <div ng-model="para.name"></div>
+                    <select ng-show="para.type=='s'" ng-options="o as o for o in para.values" ng-model="filter.parameters[$index].value" ></select>
+                    <input ng-show="para.type=='t'" type="text" placeholder="vales between {{para.values[0]}} and {{para.values[1]}}" ng-model="filter.parameters[$index].value" >
+                </div>
+                <input type="text" ng-model="filter.transparency" placeholder="Add transparency to blend this effect with another"/>
+            </div>
+        </div>
+        <button ng-click="addfilter()">Add Filter</button>
+        <input type="checkbox" ng-model="test" name="displaytype"/><label> Testing</label>
+   </div>
+</div>
