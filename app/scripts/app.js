@@ -19,6 +19,7 @@ angular
     'foundation',
     'foundation.common',
     'appServices',
+    'djds4rce.angular-socialshare',
     'angucomplete'
 ])
 .config(function($routeProvider){

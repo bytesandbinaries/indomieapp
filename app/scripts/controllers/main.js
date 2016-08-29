@@ -96,7 +96,7 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', '$co
     $scope.currentAngle=0;
     $scope.voting=false;
     $scope.test=true;
-    var width = 320;    // We will scale the photo width to this
+    var width = 0;    // We will scale the photo width to this
     var height = 0;     // This will be computed based on the input stream
     // $scope.filters=[
     //     {'name':'enrich', 'parameters':[]},
@@ -110,6 +110,7 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', '$co
         {id:0, image_url:'images/glasses.png', image_height:'', image_width:'', image_category:'All_General', image_Xposition:0, image_Yposition:0},
         {id:1, image_url:'images/beard.png', image_height:'', image_width:'', image_category:'All_Beard', image_Xposition:0, image_Yposition:0},
         {id:2, image_url:'images/beard2.png', image_height:'', image_width:'', image_category:'All_Beard', image_Xposition:0, image_Yposition:0},
+        {id:3, image_url:'images/millitary_cap.png', image_height:'', image_width:'', image_category:'All_Millitary', image_Xposition:0, image_Yposition:0}
     ];
     $scope.createDragableElement=function(id){
         //$scope.div = document.createElement("div");
@@ -236,6 +237,8 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', '$co
     }
     $scope.startWebCamera=function(){
         $scope.photostatus='webcam';
+        var canvas_containerSize=document.getElementById('image_container')
+        width=canvas_containerSize.offsetWidth;
         video = document.getElementById('video');
         videoContainer=document.getElementById('camera');
         canvas = document.getElementById('user_image');
@@ -367,22 +370,23 @@ main.controller('createCtrl', ['$scope', '$http', 'userData', 'appService', '$co
 
    $scope.uploadFile=function(){
        var imageData;
+       $scope.uploading=true;
            var c = document.getElementById("appbody");
            console.log(c);
            console.log(c.offsetLeft);
            var cx=document.getElementById("user_image");
            var ctx = cx.getContext("2d");
-
+           console.log(ctx.canvas.width);
            var sectionpadding= $('#image_create');
            var paddingOffet=parseInt(sectionpadding.css('padding-left')) + 12;
-           console.log($scope.costumes);
+           console.log(paddingOffet);
           // console.log($scope.gFrameX, $scope.gFrameX-c.offsetLeft-paddingOffet, $scope.gFrameY, c.offsetTop,  $scope.gFrameW, $scope.gFrameH);
           for($x=0; $x<$scope.costumes.length; $x++){
               if($scope.costumes[$x].image_Xposition!=0 || $scope.costumes[$x].image_Xposition!=0){
                 console.log($scope.costumes[$x]);
                 var costumer=document.getElementById("costume"+$x);
-                console.log($scope.costumes[$x].image_Xposition-c.offsetLeft-paddingOffet,  $scope.costumes[$x].image_Yposition-247,  $scope.costumes[$x].image_width,  $scope.costumes[$x].image_height);
-                ctx.drawImage(costumer, $scope.costumes[$x].image_Xposition-c.offsetLeft-paddingOffet,  $scope.costumes[$x].image_Yposition-247,  $scope.costumes[$x].image_width,  $scope.costumes[$x].image_height);
+                console.log($scope.costumes[$x].image_Xposition,  $scope.costumes[$x].image_Yposition,  $scope.costumes[$x].image_width,  $scope.costumes[$x].image_height);
+                ctx.drawImage(costumer, $scope.costumes[$x].image_Xposition,  $scope.costumes[$x].image_Yposition,  $scope.costumes[$x].image_width,  $scope.costumes[$x].image_height);
               }
           }
 

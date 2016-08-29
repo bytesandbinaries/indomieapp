@@ -26,7 +26,7 @@
         <p class="in-message">Create Your Custom Image</p>
         <div class="in-avatar-preview-area canvas-wrap"  id="image_containers">
             <div class="in-avatar-image canvas" id="image_container">
-				<canvas id="user_image" width="" height=""></canvas>
+				<canvas id="user_image" width="auto" height="auto"></canvas>
 				<canvas id="overlay" width="auto" height="auto"></canvas>
                 <div id="convergence"></div>
 			</div>
@@ -54,7 +54,8 @@
         </div>
 
         <a class="back-button float-left" ng-click="changeview('select-avatar')">Back</a>
-        <a class="go-button float-right" ng-click="uploadFile()">Continue</a>
+        <a class="go-button float-right" ng-show="!uploading" ng-click="uploadFile()">Continue</a>
+        <span class=" float-right" ng-show="uploading" >Please wait...</span>
     </section>
     <!-- <section class="in-create-section" ng-switch-when="share-pic" ng-init="presentCartoon()"> -->
     <section class="content-wrap" ng-switch-when="share-pic" >
@@ -82,9 +83,9 @@
             </div>
         </div>
         <div class="in-action-choices-area">
-            <a class="in-share-btn">Share to Timeline</a>
-            <a class="in-share-btn">Use as Profile Photo</a>
-            <a class="in-share-btn" ng-click="tagfriends()">Tag Friends</a>
+            <a facebook-feed-share class="in-share-btn" data-url='https://getcentre.com/indomieap/' data-description="Design your caricature on facebook" data-picture="https://getcentre.com/indomieap/{{user.caricatureUrl}}">Share on Facebook</a>
+            <a twitter class="in-share-btn" data-lang="en" data-count='horizontal' data-url='https://getcentre.com/indomieap/images/glasses.png' data-via='indomie' data-size="medium" data-text='Testing Twitter Share' ></a>
+            <a class="in-share-btn" ng-click="tagfriends()">Tag and Post to Facebook</a>
         </div>
         <a class="go-button float-right" ng-click="" ng-href="#/vote">Submit for Voting</a>
     </section>

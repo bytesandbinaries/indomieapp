@@ -103,8 +103,8 @@ appServices.directive('fileModel', ['$parse', function ($parse) {
 }]);
 appServices.service('appService', ['$q','$http','$location','$rootScope', function( $q, $http, $location, $rootScope) {
 
-   //var urlprefix = 'http://localhost:8888/indomieApp/app/';//offline
-   var urlprefix= '';//online
+   var urlprefix = 'http://localhost:8888/indomieApp/app/';//offline
+   //var urlprefix= '';//online
 
    var parsetoformdata= function(data){
        var form_data = new FormData();

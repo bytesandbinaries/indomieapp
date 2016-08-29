@@ -4,10 +4,10 @@ function activateDraggables(){
     $( ".drag" ).draggable({
     stop: function(){
     				var finalOffset = $(this).offset();
-    				var finalxPos = finalOffset.left;
-    				var finalyPos = finalOffset.top;
+    				var finalxPos = $(this).position().left;
+    				var finalyPos = $(this).position().top;
                     console.log($(this));
-                    console.log($(this).attr('name'));
+                    console.log(finalxPos, finalyPos);
     				$('#finalX').text('Final X: ' + finalxPos);
     				$('#finalY').text('Final X: ' + finalyPos);
                     scope.costumes[$(this).attr('name')].image_Xposition= finalxPos;
@@ -302,29 +302,36 @@ function loadImage(fileList, fileIndex) {
 				// check if positions already exist in storage
 				// Render thumbnail.
 				var canvas = document.getElementById('user_image')
+                var canvas_containerSize=document.getElementById('image_container')
+                var containerWidth=canvas_containerSize.offsetWidth;
 				var cc = canvas.getContext('2d');
 				var img = new Image();
 				img.onload = function() {
-					if (img.height > 500 || img.width > 700) {
-						var rel = img.height/img.width;
-						var neww = 700;
-						var newh = neww*rel;
-						if (newh > 500) {
-							newh = 500;
-							neww = newh/rel;
-						}
-						canvas.setAttribute('width', neww);
-						canvas.setAttribute('height', newh);
-                        // overlay.setAttribute('width', neww);
-                        // overlay.setAttribute('height', newh);
-						cc.drawImage(img,0,0,neww, newh);
-					} else {
-						canvas.setAttribute('width', img.width);
-						canvas.setAttribute('height', img.height);
-                        // overlay.setAttribute('width', img.width);
-                        // overlay.setAttribute('height', img.height);
-						cc.drawImage(img,0,0,img.width, img.height);
-					}
+                    var imageSizeRatio=img.height/img.width;
+                    canvas.setAttribute('width', containerWidth);
+                    newImageheight= imageSizeRatio * containerWidth;
+                    canvas.setAttribute('height', newImageheight);
+                    cc.drawImage(img,0,0,containerWidth, newImageheight);
+					// if (img.height > 500 || img.width > 700) {
+					// 	var rel = img.height/img.width;
+					// 	var neww = 700;
+					// 	var newh = neww*rel;
+					// 	if (newh > 500) {
+					// 		newh = 500;
+					// 		neww = newh/rel;
+					// 	}
+					// 	canvas.setAttribute('width', neww);
+					// 	canvas.setAttribute('height', newh);
+                    //     // overlay.setAttribute('width', neww);
+                    //     // overlay.setAttribute('height', newh);
+					// 	cc.drawImage(img,0,0,neww, newh);
+					// } else {
+					// 	canvas.setAttribute('width', img.width);
+					// 	canvas.setAttribute('height', img.height);
+                    //     // overlay.setAttribute('width', img.width);
+                    //     // overlay.setAttribute('height', img.height);
+					// 	cc.drawImage(img,0,0,img.width, img.height);
+					// }
                     startCrop(overlay);
                     // jQuery('#overlay').css({left:jQuery('#user_image').offset().left})
                     // jQuery('#overlay').css({top:jQuery('#user_image').offset().top})
